@@ -35,7 +35,7 @@ variable "chart_repository" {
 
 variable "chart_version" {
   description = "Version of Chart to install. Set to empty to install the latest version"
-  default     = "0.8.0"
+  default     = "0.9.0"
 }
 
 variable "max_history" {
@@ -89,7 +89,7 @@ variable "injector_metrics_enabled" {
 
 variable "injector_failure_policy" {
   description = "Configures failurePolicy of the webhook. Default behaviour depends on the admission webhook version. See https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/#failure-policy"
-  default     = null
+  default     = "Ignore"
 }
 
 variable "external_vault_addr" {
@@ -104,7 +104,7 @@ variable "injector_image_repository" {
 
 variable "injector_image_tag" {
   description = "Image tag for Vault Injector"
-  default     = "0.6.0"
+  default     = "0.7.0"
 }
 
 variable "injector_log_level" {
@@ -138,7 +138,16 @@ variable "injector_env" {
 
 variable "injector_affinity" {
   description = "YAML string for injector pod affinity"
-  default     = ""
+  default     = <<-EOF
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: {{ template "vault.name" . }}
+              app.kubernetes.io/instance: "{{ .Release.Name }}"
+              component: injector
+          topologyKey: kubernetes.io/hostname
+    EOF
 }
 
 variable "injector_tolerations" {
@@ -151,6 +160,31 @@ variable "injector_priority_class_name" {
   default     = ""
 }
 
+variable "injector_replicas" {
+  description = "Number of injector replicas"
+  default     = 1
+}
+
+variable "injector_leader_elector_enabled" {
+  description = "Enable leader elector for Injector if > 1 replicas"
+  default     = true
+}
+
+variable "injector_leader_elector_image" {
+  description = "Image for Injector leader elector"
+  default     = "gcr.io/google_containers/leader-elector"
+}
+
+variable "injector_leader_elector_tag" {
+  description = "Image tag for Injector leader elector"
+  default     = "0.4"
+}
+
+variable "injector_leader_ttl" {
+  description = "TTL for a injector leader"
+  default     = "60s"
+}
+
 variable "agent_image_repository" {
   description = "Image repository for the Vault agent that is injected"
   default     = "vault"
@@ -158,7 +192,7 @@ variable "agent_image_repository" {
 
 variable "agent_image_tag" {
   description = "Image tag for the Vault agent that is injected"
-  default     = "1.6.0"
+  default     = "1.6.1"
 }
 
 variable "auth_path" {
@@ -188,7 +222,7 @@ variable "server_image_repository" {
 
 variable "server_image_tag" {
   description = "Server image tag"
-  default     = "1.6.0"
+  default     = "1.6.1"
 }
 
 variable "server_update_strategy" {

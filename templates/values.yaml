@@ -23,6 +23,17 @@ injector:
   # True if you want to enable vault agent injection.
   enabled: ${injector_enabled}
 
+  replicas: ${injector_replicas}
+
+  # If multiple replicas are specified, by default a leader-elector side-car
+  # will be created so that only one injector attempts to create TLS certificates.
+  leaderElector:
+    enabled: ${injector_leader_elector_enabled}
+    image:
+      repository: ${injector_leader_elector_image}
+      tag: ${injector_leader_elector_tag}
+    ttl: ${var.injector_leader_ttl}
+
   # If true, will enable a node exporter metrics endpoint at /metrics.
   metrics:
     enabled: ${injector_metrics_enabled}
@@ -66,7 +77,8 @@ injector:
   #      sidecar-injector: enabled
   namespaceSelector: ${namespace_selector}
 
-  # Configures failurePolicy of the webhook. By default webhook failures are ignored.
+  # Configures failurePolicy of the webhook. The "unspecified" default behaviour deoends on the
+  # API Version of the WebHook.
   # To block pod creation while webhook is unavailable, set the policy to `Fail` below.
   # See https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/#failure-policy
   #
@@ -128,6 +140,15 @@ injector:
   # This can either be YAML or a YAML-formatted multi-line templated string map
   # of the annotations to apply to the injector pods
   annotations: {}
+
+  # Extra labels to attach to the agent-injector
+  # This should be a YAML map of the labels to apply to the injector
+  extraLabels: {}
+
+  # Injector service specific config
+  service:
+    # Extra annotations to attach to the injector service
+    annotations: {}
 
 server:
   # Resource requests, limits, etc. for the server cluster placement. This
@@ -365,6 +386,9 @@ server:
   # See https://www.vaultproject.io/docs/concepts/dev-server.html to know more
   dev:
     enabled: false
+
+    # Set VAULT_DEV_ROOT_TOKEN_ID value
+    devRootToken: "root"
 
   # Run Vault in "standalone" mode. This is the default mode that will deploy if
   # no arguments are given to helm. This requires a PVC for data storage to use
