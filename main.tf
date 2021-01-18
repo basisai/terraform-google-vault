@@ -39,12 +39,17 @@ locals {
     injector_log_level        = var.injector_log_level
     injector_log_format       = var.injector_log_format
 
-    injector_resources   = jsonencode(var.injector_resources)
-    injector_env         = jsonencode(var.injector_env)
-    injector_affinity    = jsonencode(var.injector_affinity)
-    injector_tolerations = jsonencode(var.injector_tolerations)
-
+    injector_resources           = jsonencode(var.injector_resources)
+    injector_env                 = jsonencode(var.injector_env)
+    injector_affinity            = jsonencode(var.injector_affinity)
+    injector_tolerations         = jsonencode(var.injector_tolerations)
     injector_priority_class_name = var.injector_priority_class_name
+
+    injector_replicas               = var.injector_replicas
+    injector_leader_elector_enabled = var.injector_leader_elector_enabled
+    injector_leader_elector_image   = var.injector_leader_elector_image
+    injector_leader_elector_tag     = var.injector_leader_elector_tag
+    injector_leader_ttl             = var.injector_leader_ttl
 
     agent_image_repository = var.agent_image_repository
     agent_image_tag        = var.agent_image_tag
