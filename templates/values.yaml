@@ -32,7 +32,7 @@ injector:
     image:
       repository: ${injector_leader_elector_image}
       tag: ${injector_leader_elector_tag}
-    ttl: ${var.injector_leader_ttl}
+    ttl: ${injector_leader_ttl}
 
   # If true, will enable a node exporter metrics endpoint at /metrics.
   metrics:
