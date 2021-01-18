@@ -1,6 +1,6 @@
 resource "google_compute_disk" "raft" {
   provider = google-beta
-  count    = var.raft_storage_enable && ! var.raft_disk_regional ? var.server_replicas : 0
+  count    = var.raft_storage_enable && !var.raft_disk_regional ? var.server_replicas : 0
 
   name = "${var.raft_persistent_disks_prefix}${count.index}"
   type = var.raft_disk_type
@@ -109,7 +109,7 @@ resource "google_compute_resource_policy" "raft_backup" {
 
 resource "google_compute_disk_resource_policy_attachment" "raft_backup" {
   provider = google-beta
-  count    = var.raft_storage_enable && var.raft_snapshot_enable && ! var.raft_disk_regional ? var.server_replicas : 0
+  count    = var.raft_storage_enable && var.raft_snapshot_enable && !var.raft_disk_regional ? var.server_replicas : 0
 
   name = google_compute_resource_policy.raft_backup[0].name
   disk = google_compute_disk.raft[count.index].name
