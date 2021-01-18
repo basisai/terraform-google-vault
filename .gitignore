@@ -1,0 +1,6 @@
+.terraform
+terraform.tfstate.d
+terraform.tfstate.*.backup
+.terragrunt-cache
+*.retry
+*.pyc

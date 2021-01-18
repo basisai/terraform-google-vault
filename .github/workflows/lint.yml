@@ -1,0 +1,32 @@
+name: Linting
+on:
+  push:
+    branches:
+      - master
+  pull_request: {}
+
+jobs:
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    env:
+      LINT_IMAGE: lint
+    steps:
+      # cf. https://github.com/actions/checkout/issues/14#issuecomment-523916396
+      - name: Fix up git URLs
+        run: echo -e '[url "https://github.com/"]\n  insteadOf = "git@github.com:"' >> ~/.gitconfig
+      - uses: actions/checkout@v1
+        with:
+          submodules: recursive
+      - name: Build image
+        run: docker build -t "${LINT_IMAGE}" -f tests/Dockerfile .
+      - name: Format check
+        run: docker run --rm --entrypoint terraform ${LINT_IMAGE} fmt -check=true -recursive -diff ./
+      - name: Lint and verify
+        run: |
+          find . \
+            -not -path '*/\.*' \
+            -not -path './environments/*' \
+            -not -path './vendor/*' \
+            -type f -iname '*.tf' \
+            -printf '%h\n' | sort | uniq | xargs -I{} bash -c "echo {} && docker run -v /terraform/cache:/root/.terraform.d/plugin-cache --rm ${LINT_IMAGE}  {}"
