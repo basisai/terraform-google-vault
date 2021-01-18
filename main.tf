@@ -48,6 +48,7 @@ locals {
     injector_replicas               = var.injector_replicas
     injector_leader_elector_enabled = var.injector_leader_elector_enabled
     injector_leader_elector_image   = var.injector_leader_elector_image
+    injector_leader_elector_tag     = var.injector_leader_elector_tag
     injector_leader_ttl             = var.injector_leader_ttl
 
     agent_image_repository = var.agent_image_repository
