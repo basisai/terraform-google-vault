@@ -196,12 +196,12 @@ unsealing Vault if the nodes have access to the keys.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | agent\_image\_repository | Image repository for the Vault agent that is injected | `string` | `"vault"` | no |
-| agent\_image\_tag | Image tag for the Vault agent that is injected | `string` | `"1.5.2"` | no |
+| agent\_image\_tag | Image tag for the Vault agent that is injected | `string` | `"1.6.1"` | no |
 | api\_addr | Set the api\_addr configuration for Vault HA. See https://www.vaultproject.io/docs/configuration#api_addr If set to null, this will be set to the Pod IP Address | `any` | `null` | no |
 | auth\_path | Mount path of the Kubernetes Auth Engine that the injector will use | `string` | `"auth/kubernetes"` | no |
 | chart\_name | Helm chart name to provision | `string` | `"vault"` | no |
 | chart\_repository | Helm repository for the chart | `string` | `"https://helm.releases.hashicorp.com"` | no |
-| chart\_version | Version of Chart to install. Set to empty to install the latest version | `string` | `"0.8.0"` | no |
+| chart\_version | Version of Chart to install. Set to empty to install the latest version | `string` | `"0.9.1"` | no |
 | enable\_auth\_delegator | uthDelegator enables a cluster role binding to be attached to the service account.  This cluster role binding can be used to setup Kubernetes auth method. https://www.vaultproject.io/docs/auth/kubernetes.html | `bool` | `true` | no |
 | external\_vault\_addr | External vault server address for the injector to use. Setting this will disable deployment of a vault server along with the injector. | `string` | `""` | no |
 | fullname\_override | Helm resources full name override | `string` | `""` | no |
@@ -228,16 +228,21 @@ unsealing Vault if the nodes have access to the keys.
 | ingress\_hosts | Hosts for server ingress | `list` | <pre>[<br>  {<br>    "host": "chart-example.local",<br>    "paths": []<br>  }<br>]</pre> | no |
 | ingress\_labels | Labels for server ingress | `map` | `{}` | no |
 | ingress\_tls | Configuration for server ingress | `list` | `[]` | no |
-| injector\_affinity | YAML string for injector pod affinity | `string` | `""` | no |
+| injector\_affinity | YAML string for injector pod affinity | `string` | `"podAntiAffinity:\n  requiredDuringSchedulingIgnoredDuringExecution:\n    - labelSelector:\n        matchLabels:\n          app.kubernetes.io/name: {{ template \"vault.name\" . }}-agent-injector\n          app.kubernetes.io/instance: \"{{ .Release.Name }}\"\n          component: webhook\n      topologyKey: kubernetes.io/hostname\n"` | no |
 | injector\_enabled | Enable Vault Injector | `bool` | `true` | no |
 | injector\_env | Extra environment variable for the injector pods | `map` | `{}` | no |
-| injector\_failure\_policy | Configures failurePolicy of the webhook. Default behaviour depends on the admission webhook version. See https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/#failure-policy | `any` | `null` | no |
+| injector\_failure\_policy | Configures failurePolicy of the webhook. Default behaviour depends on the admission webhook version. See https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/#failure-policy | `string` | `"Ignore"` | no |
 | injector\_image\_repository | Image repository for Vault Injector | `string` | `"hashicorp/vault-k8s"` | no |
-| injector\_image\_tag | Image tag for Vault Injector | `string` | `"0.6.0"` | no |
+| injector\_image\_tag | Image tag for Vault Injector | `string` | `"0.8.0"` | no |
+| injector\_leader\_elector\_enabled | Enable leader elector for Injector if > 1 replicas | `bool` | `true` | no |
+| injector\_leader\_elector\_image | Image for Injector leader elector | `string` | `"gcr.io/google_containers/leader-elector"` | no |
+| injector\_leader\_elector\_tag | Image tag for Injector leader elector | `string` | `"0.4"` | no |
+| injector\_leader\_ttl | TTL for a injector leader | `string` | `"60s"` | no |
 | injector\_log\_format | Log format for the injector. standard or json | `string` | `"standard"` | no |
 | injector\_log\_level | Log level for the injector. Supported log levels: trace, debug, error, warn, info | `string` | `"info"` | no |
 | injector\_metrics\_enabled | enable a node exporter metrics endpoint at /metrics | `bool` | `false` | no |
 | injector\_priority\_class\_name | Priority class name for injector pods | `string` | `""` | no |
+| injector\_replicas | Number of injector replicas | `number` | `1` | no |
 | injector\_resources | Resources for the injector | `map` | <pre>{<br>  "limits": {<br>    "cpu": "250m",<br>    "memory": "256Mi"<br>  },<br>  "requests": {<br>    "cpu": "250m",<br>    "memory": "256Mi"<br>  }<br>}</pre> | no |
 | injector\_tolerations | YAML string for injector tolerations | `string` | `""` | no |
 | key\_ring\_name | Name of the Keyring to create. | `string` | `"vault"` | no |
@@ -285,7 +290,7 @@ unsealing Vault if the nodes have access to the keys.
 | server\_extra\_args | Extra args for the server | `string` | `""` | no |
 | server\_extra\_containers | Extra containers for Vault server as a raw YAML string | `string` | `""` | no |
 | server\_image\_repository | Server image repository | `string` | `"vault"` | no |
-| server\_image\_tag | Server image tag | `string` | `"1.5.2"` | no |
+| server\_image\_tag | Server image tag | `string` | `"1.6.1"` | no |
 | server\_labels | Labels for server | `map` | `{}` | no |
 | server\_liveness\_probe\_enable | Enable server liness probe | `bool` | `true` | no |
 | server\_liveness\_probe\_path | Server liveness probe path | `string` | `"/v1/sys/health?standbyok=true"` | no |
