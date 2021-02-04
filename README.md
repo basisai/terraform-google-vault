@@ -196,7 +196,7 @@ unsealing Vault if the nodes have access to the keys.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | agent\_image\_repository | Image repository for the Vault agent that is injected | `string` | `"vault"` | no |
-| agent\_image\_tag | Image tag for the Vault agent that is injected | `string` | `"1.6.1"` | no |
+| agent\_image\_tag | Image tag for the Vault agent that is injected | `string` | `"1.6.2"` | no |
 | api\_addr | Set the api\_addr configuration for Vault HA. See https://www.vaultproject.io/docs/configuration#api_addr If set to null, this will be set to the Pod IP Address | `any` | `null` | no |
 | auth\_path | Mount path of the Kubernetes Auth Engine that the injector will use | `string` | `"auth/kubernetes"` | no |
 | chart\_name | Helm chart name to provision | `string` | `"vault"` | no |
@@ -290,7 +290,7 @@ unsealing Vault if the nodes have access to the keys.
 | server\_extra\_args | Extra args for the server | `string` | `""` | no |
 | server\_extra\_containers | Extra containers for Vault server as a raw YAML string | `string` | `""` | no |
 | server\_image\_repository | Server image repository | `string` | `"vault"` | no |
-| server\_image\_tag | Server image tag | `string` | `"1.6.1"` | no |
+| server\_image\_tag | Server image tag | `string` | `"1.6.2"` | no |
 | server\_labels | Labels for server | `map` | `{}` | no |
 | server\_liveness\_probe\_enable | Enable server liness probe | `bool` | `true` | no |
 | server\_liveness\_probe\_path | Server liveness probe path | `string` | `"/v1/sys/health?standbyok=true"` | no |

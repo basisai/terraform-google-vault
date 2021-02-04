@@ -192,7 +192,7 @@ variable "agent_image_repository" {
 
 variable "agent_image_tag" {
   description = "Image tag for the Vault agent that is injected"
-  default     = "1.6.1"
+  default     = "1.6.2"
 }
 
 variable "auth_path" {
@@ -222,7 +222,7 @@ variable "server_image_repository" {
 
 variable "server_image_tag" {
   description = "Server image tag"
-  default     = "1.6.1"
+  default     = "1.6.2"
 }
 
 variable "server_update_strategy" {
