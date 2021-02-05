@@ -35,7 +35,7 @@ variable "chart_repository" {
 
 variable "chart_version" {
   description = "Version of Chart to install. Set to empty to install the latest version"
-  default     = "0.9.0"
+  default     = "0.9.1"
 }
 
 variable "max_history" {
@@ -104,7 +104,7 @@ variable "injector_image_repository" {
 
 variable "injector_image_tag" {
   description = "Image tag for Vault Injector"
-  default     = "0.7.0"
+  default     = "0.8.0"
 }
 
 variable "injector_log_level" {
@@ -143,9 +143,9 @@ variable "injector_affinity" {
       requiredDuringSchedulingIgnoredDuringExecution:
         - labelSelector:
             matchLabels:
-              app.kubernetes.io/name: {{ template "vault.name" . }}
+              app.kubernetes.io/name: {{ template "vault.name" . }}-agent-injector
               app.kubernetes.io/instance: "{{ .Release.Name }}"
-              component: injector
+              component: webhook
           topologyKey: kubernetes.io/hostname
     EOF
 }
@@ -192,7 +192,7 @@ variable "agent_image_repository" {
 
 variable "agent_image_tag" {
   description = "Image tag for the Vault agent that is injected"
-  default     = "1.6.1"
+  default     = "1.6.2"
 }
 
 variable "auth_path" {
@@ -222,7 +222,7 @@ variable "server_image_repository" {
 
 variable "server_image_tag" {
   description = "Server image tag"
-  default     = "1.6.1"
+  default     = "1.6.2"
 }
 
 variable "server_update_strategy" {
