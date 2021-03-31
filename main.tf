@@ -20,6 +20,11 @@ resource "helm_release" "vault" {
   ]
 }
 
+# To allow for easier viewing of diff for Vault Chart values
+resource "null_resource" "vault_values" {
+  triggers = local.chart_values
+}
+
 locals {
   # TODOs:
   # - Support template string variant of annotations
