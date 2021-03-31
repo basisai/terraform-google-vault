@@ -179,6 +179,7 @@ unsealing Vault if the nodes have access to the keys.
 | Name | Version |
 |------|---------|
 | terraform | >= 0.12.17 |
+| google-beta | >= 3.38 |
 | helm | >= 1.0 |
 | kubernetes | >= 1.11.4 |
 
@@ -186,22 +187,23 @@ unsealing Vault if the nodes have access to the keys.
 
 | Name | Version |
 |------|---------|
-| google-beta | n/a |
+| google-beta | >= 3.38 |
 | helm | >= 1.0 |
 | kubernetes | >= 1.11.4 |
 | local | n/a |
+| null | n/a |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | agent\_image\_repository | Image repository for the Vault agent that is injected | `string` | `"vault"` | no |
-| agent\_image\_tag | Image tag for the Vault agent that is injected | `string` | `"1.6.2"` | no |
+| agent\_image\_tag | Image tag for the Vault agent that is injected | `string` | `"1.7.0"` | no |
 | api\_addr | Set the api\_addr configuration for Vault HA. See https://www.vaultproject.io/docs/configuration#api_addr If set to null, this will be set to the Pod IP Address | `any` | `null` | no |
 | auth\_path | Mount path of the Kubernetes Auth Engine that the injector will use | `string` | `"auth/kubernetes"` | no |
 | chart\_name | Helm chart name to provision | `string` | `"vault"` | no |
 | chart\_repository | Helm repository for the chart | `string` | `"https://helm.releases.hashicorp.com"` | no |
-| chart\_version | Version of Chart to install. Set to empty to install the latest version | `string` | `"0.9.1"` | no |
+| chart\_version | Version of Chart to install. Set to empty to install the latest version | `string` | `"0.10.0"` | no |
 | enable\_auth\_delegator | uthDelegator enables a cluster role binding to be attached to the service account.  This cluster role binding can be used to setup Kubernetes auth method. https://www.vaultproject.io/docs/auth/kubernetes.html | `bool` | `true` | no |
 | external\_vault\_addr | External vault server address for the injector to use. Setting this will disable deployment of a vault server along with the injector. | `string` | `""` | no |
 | fullname\_override | Helm resources full name override | `string` | `""` | no |
@@ -233,7 +235,7 @@ unsealing Vault if the nodes have access to the keys.
 | injector\_env | Extra environment variable for the injector pods | `map` | `{}` | no |
 | injector\_failure\_policy | Configures failurePolicy of the webhook. Default behaviour depends on the admission webhook version. See https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/#failure-policy | `string` | `"Ignore"` | no |
 | injector\_image\_repository | Image repository for Vault Injector | `string` | `"hashicorp/vault-k8s"` | no |
-| injector\_image\_tag | Image tag for Vault Injector | `string` | `"0.8.0"` | no |
+| injector\_image\_tag | Image tag for Vault Injector | `string` | `"0.9.0"` | no |
 | injector\_leader\_elector\_enabled | Enable leader elector for Injector if > 1 replicas | `bool` | `true` | no |
 | injector\_leader\_elector\_image | Image for Injector leader elector | `string` | `"gcr.io/google_containers/leader-elector"` | no |
 | injector\_leader\_elector\_tag | Image tag for Injector leader elector | `string` | `"0.4"` | no |
@@ -255,6 +257,7 @@ unsealing Vault if the nodes have access to the keys.
 | max\_history | Max history for Helm | `number` | `20` | no |
 | namespace\_selector | The selector for restricting the webhook to only specific namespaces. See https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/#matching-requests-namespaceselector for more details. | `map` | `{}` | no |
 | node\_port | If type is set to 'NodePort', a specific nodePort value can be configured, will be random if left blank. | `string` | `"30000"` | no |
+| object\_selector | objectSelector is the selector for restricting the webhook to only specific labels. See https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/#matching-requests-objectselector | `map` | `{}` | no |
 | project\_id | Project ID for GCP Resources | `any` | n/a | yes |
 | psp\_annotations | Template YAML string for PSP annotations | `string` | `"seccomp.security.alpha.kubernetes.io/allowedProfileNames: docker/default,runtime/default\napparmor.security.beta.kubernetes.io/allowedProfileNames: runtime/default\nseccomp.security.alpha.kubernetes.io/defaultProfileName:  runtime/default\napparmor.security.beta.kubernetes.io/defaultProfileName:  runtime/default\n"` | no |
 | psp\_enabled | Enable PSP | `bool` | `false` | no |
@@ -283,14 +286,15 @@ unsealing Vault if the nodes have access to the keys.
 | raft\_storage\_use | Use Raft storage in Vault configuration. Setting this to false allows Raft storage resouces to be created but not used with Vault | `bool` | `true` | no |
 | release\_name | Helm release name for Vault | `string` | `"vault"` | no |
 | revoke\_on\_shutdown | Attempt to revoke Vault Token on injected agent shutdown. | `bool` | `true` | no |
-| server\_affinity | Server affinity YAML string | `string` | `"podAntiAffinity:\n  requiredDuringSchedulingIgnoredDuringExecution:\n    - labelSelector:\n        matchLabels:\n          app.kubernetes.io/name: {{ template \"vault.name\" . }}\n          app.kubernetes.io/instance: \"{{ .Release.Name }}\"\n          component: server\n      topologyKey: kubernetes.io/hostname\n"` | no |
+| server\_affinity | Server affinity YAML string | `string` | `"podAntiAffinity:\n  requiredDuringSchedulingIgnoredDuringExecution:\n    - labelSelector:\n        matchLabels:\n
+app.kubernetes.io/name: {{ template \"vault.name\" . }}\n          app.kubernetes.io/instance: \"{{ .Release.Name }}\"\n          component: server\n      topologyKey: kubernetes.io/hostname\n"` | no |
 | server\_annotations | Annotations for server | `map` | `{}` | no |
 | server\_config | Additional server configuration | `map` | `{}` | no |
 | server\_env | Server extra environment variables | `map` | `{}` | no |
 | server\_extra\_args | Extra args for the server | `string` | `""` | no |
 | server\_extra\_containers | Extra containers for Vault server as a raw YAML string | `string` | `""` | no |
 | server\_image\_repository | Server image repository | `string` | `"vault"` | no |
-| server\_image\_tag | Server image tag | `string` | `"1.6.2"` | no |
+| server\_image\_tag | Server image tag | `string` | `"1.7.0"` | no |
 | server\_labels | Labels for server | `map` | `{}` | no |
 | server\_liveness\_probe\_enable | Enable server liness probe | `bool` | `true` | no |
 | server\_liveness\_probe\_path | Server liveness probe path | `string` | `"/v1/sys/health?standbyok=true"` | no |
@@ -303,6 +307,7 @@ unsealing Vault if the nodes have access to the keys.
 | server\_share\_pid | Share PID for server pods | `bool` | `false` | no |
 | server\_tolerations | YAML string for server tolerations | `string` | `""` | no |
 | server\_update\_strategy | Configure the Update Strategy Type for the StatefulSet. See https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies | `string` | `"RollingUpdate"` | no |
+| server\_volume\_mounts | Extra volume mounts for server | `list` | `[]` | no |
 | server\_volumes | Extra volumes for server | `list` | `[]` | no |
 | service\_account\_annotations | Annotations for service account | `map` | `{}` | no |
 | service\_account\_create | Create service account for server | `bool` | `true` | no |

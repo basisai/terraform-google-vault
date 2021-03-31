@@ -20,9 +20,12 @@ resource "helm_release" "vault" {
   ]
 }
 
+# To allow for easier viewing of diff for Vault Chart values
+resource "null_resource" "vault_values" {
+  triggers = local.chart_values
+}
+
 locals {
-  # TODOs:
-  # - Support template string variant of annotations
   chart_values = {
     global_enabled = var.global_enabled
 
@@ -58,6 +61,7 @@ locals {
     revoke_on_shutdown = var.revoke_on_shutdown
 
     namespace_selector = jsonencode(var.namespace_selector)
+    object_selector    = jsonencode(var.object_selector)
 
     injector_metrics_enabled = var.injector_metrics_enabled
     injector_failure_policy  = var.injector_failure_policy != null ? var.injector_failure_policy : "null"
@@ -77,9 +81,11 @@ locals {
     server_extra_args       = var.server_extra_args
     server_env              = jsonencode(var.server_env)
     server_secret_env       = jsonencode(var.server_secret_env)
-    server_volumes          = jsonencode(concat([local.tls_volume], var.server_volumes))
     server_affinity         = jsonencode(var.server_affinity)
     server_tolerations      = jsonencode(var.server_tolerations)
+
+    server_volumes       = jsonencode(concat([local.tls_volume], var.server_volumes))
+    server_volume_mounts = jsonencode(concat([local.tls_volume_mount], var.server_volume_mounts))
 
     server_priority_class_name = var.server_priority_class_name
 
@@ -182,9 +188,14 @@ locals {
   tls_secret_ca_key   = "ca"
 
   tls_volume = {
-    type = "secret"
-    name = kubernetes_secret.tls_cert.metadata[0].name
-    path = local.tls_secret_path
+    name = "tls"
+    secret = {
+      secretName = kubernetes_secret.tls_cert.metadata[0].name
+    }
+  }
+  tls_volume_mount = {
+    name      = "tls"
+    mountPath = local.tls_secret_path
   }
 
   raft_storage_config = {
@@ -224,9 +235,9 @@ resource "kubernetes_secret" "tls_cert" {
   type = "Opaque"
 
   data = {
-    "${local.tls_secret_cert_key}" = var.tls_cert_pem
-    "${local.tls_secret_key_key}"  = var.tls_cert_key
-    "${local.tls_secret_ca_key}"   = var.tls_cert_ca
+    (local.tls_secret_cert_key) = var.tls_cert_pem
+    (local.tls_secret_key_key)  = var.tls_cert_key
+    (local.tls_secret_ca_key)   = var.tls_cert_ca
   }
 }
 
