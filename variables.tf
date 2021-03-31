@@ -35,7 +35,7 @@ variable "chart_repository" {
 
 variable "chart_version" {
   description = "Version of Chart to install. Set to empty to install the latest version"
-  default     = "0.9.1"
+  default     = "0.10.0"
 }
 
 variable "max_history" {
@@ -104,7 +104,7 @@ variable "injector_image_repository" {
 
 variable "injector_image_tag" {
   description = "Image tag for Vault Injector"
-  default     = "0.8.0"
+  default     = "0.9.0"
 }
 
 variable "injector_log_level" {
@@ -192,7 +192,7 @@ variable "agent_image_repository" {
 
 variable "agent_image_tag" {
   description = "Image tag for the Vault agent that is injected"
-  default     = "1.6.2"
+  default     = "1.7.0"
 }
 
 variable "auth_path" {
@@ -210,6 +210,11 @@ variable "namespace_selector" {
   default     = {}
 }
 
+variable "object_selector" {
+  description = "objectSelector is the selector for restricting the webhook to only specific labels. See https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/#matching-requests-objectselector"
+  default     = {}
+}
+
 variable "server_replicas" {
   description = "Number of replicas. Should be either 3 or 5 for raft"
   default     = 5
@@ -222,7 +227,7 @@ variable "server_image_repository" {
 
 variable "server_image_tag" {
   description = "Server image tag"
-  default     = "1.6.2"
+  default     = "1.7.0"
 }
 
 variable "server_update_strategy" {
@@ -281,6 +286,11 @@ variable "server_secret_env" {
 
 variable "server_volumes" {
   description = "Extra volumes for server"
+  default     = []
+}
+
+variable "server_volume_mounts" {
+  description = "Extra volume mounts for server"
   default     = []
 }
 
