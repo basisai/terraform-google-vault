@@ -87,7 +87,6 @@ locals {
     server_volumes       = jsonencode(concat([local.tls_volume], var.server_volumes))
     server_volume_mounts = jsonencode(concat([local.tls_volume_mount], var.server_volume_mounts))
 
-
     server_priority_class_name = var.server_priority_class_name
 
     server_readiness_probe_enable = var.server_readiness_probe_enable
