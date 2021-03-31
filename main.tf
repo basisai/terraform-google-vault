@@ -149,8 +149,8 @@ locals {
           address         = "[::]:8200"
           cluster_address = "[::]:8201"
 
-          tls_cert_file    = "${local.tls_secret_path}/${local.tls_secret_name}/${local.tls_secret_cert_key}"
-          tls_key_file     = "${local.tls_secret_path}/${local.tls_secret_name}/${local.tls_secret_key_key}"
+          tls_cert_file    = "${local.tls_secret_path}/${local.tls_secret_cert_key}"
+          tls_key_file     = "${local.tls_secret_path}/${local.tls_secret_key_key}"
           tls_ciper_suites = var.tls_cipher_suites
 
           telemetry = {
