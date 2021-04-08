@@ -210,8 +210,12 @@ unsealing Vault if the nodes have access to the keys.
 | gcs\_extra\_parameters | Additional paramaters for GCS storage. See https://www.vaultproject.io/docs/configuration/storage/google-cloud-storage | `map` | `{}` | no |
 | gcs\_storage\_enable | Enable the use of GCS Storage | `any` | n/a | yes |
 | gcs\_storage\_use | Use GCS storage in Vault configuration. Setting this to false allows GCS storage resouces to be created but not used with Vault | `bool` | `true` | no |
+| gke\_boot\_disk\_kms\_key | KMS Key to encrypt the boot disk. Set to `null` to not use any | `string` | `null` | no |
 | gke\_cluster | Cluster to create node pool for | `string` | `"<REQUIRED if gke_pool_create is true>"` | no |
 | gke\_disk\_type | Disk type for the nodes | `string` | `"pd-standard"` | no |
+| gke\_enable\_integrity\_monitoring | Enable integrity monitoring of nodes | `bool` | `false` | no |
+| gke\_enable\_secure\_boot | Enable secure boot for GKE nodes | `bool` | `false` | no |
+| gke\_image\_type | Type of image for GKE nodes | `string` | `"COS_CONTAINERD"` | no |
 | gke\_labels | Labels for the GKE nodes | `map` | `{}` | no |
 | gke\_machine\_type | Machine type for the GKE nodes. Make sure this matches the resources you are requesting | `string` | `"n1-standard-2"` | no |
 | gke\_metadata | Metadata for the GKE nodes | `map` | `{}` | no |
