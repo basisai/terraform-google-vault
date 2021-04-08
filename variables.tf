@@ -767,6 +767,30 @@ variable "gke_disk_type" {
   default     = "pd-standard"
 }
 
+variable "gke_boot_disk_kms_key" {
+  description = "KMS Key to encrypt the boot disk. Set to `null` to not use any"
+  type        = string
+  default     = null
+}
+
+variable "gke_image_type" {
+  description = "Type of image for GKE nodes"
+  type        = string
+  default     = "COS_CONTAINERD"
+}
+
+variable "gke_enable_secure_boot" {
+  description = "Enable secure boot for GKE nodes"
+  type        = bool
+  default     = false
+}
+
+variable "gke_enable_integrity_monitoring" {
+  description = "Enable integrity monitoring of nodes"
+  type        = bool
+  default     = false
+}
+
 variable "gke_machine_type" {
   description = "Machine type for the GKE nodes. Make sure this matches the resources you are requesting"
   default     = "n1-standard-2"

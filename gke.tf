@@ -37,9 +37,12 @@ resource "google_container_node_pool" "vault" {
   }
 
   node_config {
-    disk_size_gb = var.gke_node_size_gb
-    disk_type    = var.gke_disk_type
     machine_type = var.gke_machine_type
+
+    disk_size_gb      = var.gke_node_size_gb
+    disk_type         = var.gke_disk_type
+    boot_disk_kms_key = var.gke_boot_disk_kms_key
+    image_type        = var.gke_image_type
 
     labels   = var.gke_labels
     metadata = var.gke_metadata
@@ -65,6 +68,11 @@ resource "google_container_node_pool" "vault" {
     # See https://cloud.google.com/kubernetes-engine/docs/how-to/protecting-cluster-metadata#concealment
     workload_metadata_config {
       node_metadata = var.workload_identity_enable ? "GKE_METADATA_SERVER" : "SECURE"
+    }
+
+    shielded_instance_config {
+      enable_secure_boot          = var.gke_enable_secure_boot
+      enable_integrity_monitoring = var.gke_enable_integrity_monitoring
     }
   }
 
