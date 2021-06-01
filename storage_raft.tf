@@ -6,7 +6,7 @@ resource "google_compute_disk" "raft" {
   type = var.raft_disk_type
   size = var.raft_disk_size
 
-  zone = element(coalescelist(var.raft_disk_zones, data.google_compute_zones.raft[0].names), count.index)
+  zone = element(coalescelist(var.raft_disk_zones, local.zones), count.index)
 
   description = "Vault server data disks replica ${count.index}"
 
@@ -15,10 +15,6 @@ resource "google_compute_disk" "raft" {
 
   disk_encryption_key {
     kms_key_self_link = google_kms_crypto_key_iam_member.disk[0].crypto_key_id
-  }
-
-  lifecycle {
-    prevent_destroy = true
   }
 }
 
@@ -33,7 +29,7 @@ resource "google_compute_region_disk" "raft" {
   region = var.raft_region
   replica_zones = coalescelist(
     element(var.raft_replica_zones, count.index),
-    [element(data.google_compute_zones.raft[0].names, count.index), element(data.google_compute_zones.raft[0].names, count.index + 1)]
+    [element(local.zones, count.index), element(local.zones, count.index + 1)]
   )
 
   description = "Vault server data disks replica ${count.index}"
@@ -43,10 +39,6 @@ resource "google_compute_region_disk" "raft" {
 
   disk_encryption_key {
     kms_key_name = google_kms_crypto_key.storage.self_link
-  }
-
-  lifecycle {
-    prevent_destroy = true
   }
 }
 

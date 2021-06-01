@@ -4,7 +4,7 @@ terraform {
   required_providers {
     google-beta = {
       source  = "hashicorp/google-beta"
-      version = ">= 3.19"
+      version = ">= 3.0, != 3.67, != 3.68, != 3.69" # See https://github.com/hashicorp/terraform-provider-google-beta/pull/3272
     }
     helm = {
       source  = "hashicorp/helm"

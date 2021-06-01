@@ -33,4 +33,6 @@ locals {
     ),
     "-"
   )
+
+  zones = var.raft_storage_enable ? [for name in data.google_compute_zones.raft[0].names : "https://www.googleapis.com/compute/v1/projects/${var.project_id}/zones/${name}"] : []
 }
