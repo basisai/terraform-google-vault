@@ -1,9 +1,18 @@
 terraform {
-  required_version = ">= 0.12.17"
+  required_version = ">= 0.14"
 
   required_providers {
-    helm        = ">= 1.0"
-    kubernetes  = ">= 1.11.4"
-    google-beta = ">= 3.38"
+    google-beta = {
+      source  = "hashicorp/google-beta"
+      version = ">= 3.0, != 3.67, != 3.68, != 3.69" # See https://github.com/hashicorp/terraform-provider-google-beta/pull/3272
+    }
+    helm = {
+      source  = "hashicorp/helm"
+      version = ">= 2.0"
+    }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = ">= 2.0"
+    }
   }
 }
