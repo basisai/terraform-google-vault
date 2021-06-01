@@ -77,7 +77,7 @@ resource "google_container_node_pool" "vault" {
   }
 
   dynamic "upgrade_settings" {
-    for_each = var.gke_node_upgrade_settings_enabled ? list(var.gke_node_upgrade_settings) : []
+    for_each = var.gke_node_upgrade_settings_enabled ? [var.gke_node_upgrade_settings] : []
 
     content {
       max_surge       = upgrade_settings.value.max_surge
