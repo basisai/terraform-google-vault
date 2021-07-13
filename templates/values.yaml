@@ -25,13 +25,16 @@ injector:
 
   replicas: ${injector_replicas}
 
+  # Configures the port the injector should listen on
+  port: 8080
+
   # If multiple replicas are specified, by default a leader-elector side-car
   # will be created so that only one injector attempts to create TLS certificates.
   leaderElector:
     enabled: ${injector_leader_elector_enabled}
     image:
       repository: ${injector_leader_elector_image}
-      tag: ${injector_leader_elector_tag}
+      tag: "${injector_leader_elector_tag}"
     ttl: ${injector_leader_ttl}
 
   # If true, will enable a node exporter metrics endpoint at /metrics.
@@ -55,10 +58,24 @@ injector:
     repository: ${agent_image_repository}
     tag: "${agent_image_tag}"
 
+  # The default values for the injected Vault Agent containers.
+  agentDefaults:
+    # For more information on configuring resources, see the K8s documentation:
+    # https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+    cpuLimit: "${agent_default_cpu_limit}"
+    cpuRequest: "${agent_default_cpu_request}"
+    memLimit: "${agent_default_memory_request}"
+    memRequest: "${agent_default_memory_limit}"
+
+    # Default template type for secrets when no custom template is specified.
+    # Possible values include: "json" and "map".
+    template: ${agent_default_template_type}
+
   # Mount Path of the Vault Kubernetes Auth Method.
   authPath: ${auth_path}
 
-  # Configures the log verbosity of the injector. Supported log levels: Trace, Debug, Error, Warn, Info
+  # Configures the log verbosity of the injector.
+  # Supported log levels include: trace, debug, info, warn, error
   logLevel: "${injector_log_level}"
 
   # Configures the log format of the injector. Supported log formats: "standard", "json".
@@ -154,12 +171,31 @@ injector:
   # This should be a YAML map of the labels to apply to the injector
   extraLabels: {}
 
+  # Should the injector pods run on the host network (useful when using
+  # an alternate CNI in EKS)
+  hostNetwork: false
+
   # Injector service specific config
   service:
     # Extra annotations to attach to the injector service
     annotations: {}
 
 server:
+  # If not set to true, Vault server will not be installed. See vault.mode in _helpers.tpl for implementation details
+  enabled: ${server_enabled}
+
+  # [Enterprise Only] This value refers to a Kubernetes secret that you have
+  # created that contains your enterprise license. If you are not using an
+  # enterprise image or if you plan to introduce the license key via another
+  # route, then leave secretName blank ("") or set it to null.
+  # Requires Vault Enterprise 1.8 or later.
+  enterpriseLicense:
+    # The name of the Kubernetes secret that holds the enterprise license. The
+    # secret must be in the same namespace that Vault is installed into.
+    secretName: ""
+    # The key within the Kubernetes secret that holds the enterprise license.
+    secretKey: "license"
+
   # Resource requests, limits, etc. for the server cluster placement. This
   # should map directly to the value of the resources field for a PodSpec.
   # By default no direct resource request is made.
@@ -173,6 +209,14 @@ server:
   # Configure the Update Strategy Type for the StatefulSet
   # See https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies
   updateStrategyType: ${server_update_strategy}
+
+  # Configure the logging verbosity for the Vault server.
+  # Supported log levels include: trace, debug, info, warn, error
+  logLevel: "${server_log_level}"
+
+  # Configure the logging format for the Vault server.
+  # Supported log formats include: standard, json
+  logFormat: "${server_log_format}"
 
   resources: ${server_resources}
   # resources:
@@ -197,6 +241,12 @@ server:
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
     hosts: ${ingress_hosts}
+    ## Extra paths to prepend to the host configuration. This is useful when working with annotation based services.
+    extraPaths: []
+    # - path: /*
+    #   backend:
+    #     serviceName: ssl-redirect
+    #     servicePort: use-annotation
 
     tls: ${ingress_tls}
     #  - secretName: chart-example-tls
@@ -210,7 +260,7 @@ server:
   authDelegator:
     enabled: ${enable_auth_delegator}
 
-  # extraContainers is a list of sidecar containers. Specified as a raw YAML string.
+  # extraContainers is a list of sidecar containers. Specified as a YAML list.
   extraContainers: ${server_extra_containers}
 
   # shareProcessNamespace enables process namespace sharing between Vault and the extraContainers
@@ -315,7 +365,7 @@ server:
   # Example:
   # nodeSelector: |
   #   beta.kubernetes.io/arch: amd64
-  nodeSelector: {}
+  nodeSelector: null
 
   # Enables network policy for server pods
   networkPolicy:
@@ -471,11 +521,13 @@ server:
       enabled: ${raft_enable}
       # Set the Node Raft ID to the name of the pod
       setNodeId: ${raft_set_node_id}
-      config: ${server_configuration}
+      config: |
+        ${indent(8, server_configuration)}
     # config is a raw string of default configuration when using a Stateful
     # deployment. Default is to use a Consul for its HA storage backend.
     # This should be HCL.
-    config: ${server_configuration}
+    config: |
+      ${indent(6, server_configuration)}
 
     # A disruption budget limits the number of pods of a replicated application
     # that are down simultaneously from voluntary disruptions
@@ -521,6 +573,7 @@ ui:
   serviceType: ${ui_service_type}
   serviceNodePort: ${ui_service_node_port}
   externalPort: ${ui_service_port}
+  targetPort: 8200
 
   loadBalancerSourceRanges: ${ui_load_balancer_source_ranges}
   #   - 10.0.0.0/16
@@ -547,7 +600,7 @@ csi:
 
   image:
     repository: "hashicorp/vault-csi-provider"
-    tag: "0.1.0"
+    tag: "0.3.0"
     pullPolicy: IfNotPresent
 
   # volumes is a list of volumes made available to all containers. These are rendered
@@ -584,11 +637,17 @@ csi:
     # YAML-formatted multi-line templated string map of the annotations to apply
     # to the daemonSet.
     annotations: {}
+
   pod:
     # Extra annotations for the provider pods. This can either be YAML or a
     # YAML-formatted multi-line templated string map of the annotations to apply
     # to the pod.
     annotations: {}
+
+    # Toleration Settings for provider pods
+    # This should be a multi-line string matching the Toleration array
+    # in a PodSpec.
+    tolerations: null
 
   serviceAccount:
     # Extra annotations for the serviceAccount definition. This can either be
@@ -623,3 +682,6 @@ csi:
 
   # Enables debug logging.
   debug: false
+
+  # Pass arbitrary additional arguments to vault-csi-provider.
+  extraArgs: []

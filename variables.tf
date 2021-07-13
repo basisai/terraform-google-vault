@@ -35,7 +35,7 @@ variable "chart_repository" {
 
 variable "chart_version" {
   description = "Version of Chart to install. Set to empty to install the latest version"
-  default     = "0.10.0"
+  default     = "0.13.0"
 }
 
 variable "max_history" {
@@ -104,7 +104,7 @@ variable "injector_image_repository" {
 
 variable "injector_image_tag" {
   description = "Image tag for Vault Injector"
-  default     = "0.9.0"
+  default     = "0.10.2"
 }
 
 variable "injector_log_level" {
@@ -192,7 +192,37 @@ variable "agent_image_repository" {
 
 variable "agent_image_tag" {
   description = "Image tag for the Vault agent that is injected"
-  default     = "1.7.0"
+  default     = "1.7.3"
+}
+
+variable "agent_default_cpu_request" {
+  description = "Default CPU request for injected agent containers"
+  type        = string
+  default     = "250m"
+}
+
+variable "agent_default_cpu_limit" {
+  description = "Default CPU Limit for injected agent containers"
+  type        = string
+  default     = "500m"
+}
+
+variable "agent_default_memory_request" {
+  description = "Default memory request for injected agent containers"
+  type        = string
+  default     = "128Mi"
+}
+
+variable "agent_default_memory_limit" {
+  description = "Default memory Limit for injected agent containers"
+  type        = string
+  default     = "128Mi"
+}
+
+variable "agent_default_template_type" {
+  description = "Default template type for secrets when no custom template is specified. Possible values include: \"json\" and \"map\"."
+  type        = string
+  default     = "map"
 }
 
 variable "auth_path" {
@@ -215,6 +245,12 @@ variable "object_selector" {
   default     = {}
 }
 
+variable "server_enabled" {
+  description = "Enable Vault Server"
+  type        = bool
+  default     = true
+}
+
 variable "server_replicas" {
   description = "Number of replicas. Should be either 3 or 5 for raft"
   default     = 5
@@ -227,7 +263,7 @@ variable "server_image_repository" {
 
 variable "server_image_tag" {
   description = "Server image tag"
-  default     = "1.7.0"
+  default     = "1.7.3"
 }
 
 variable "server_update_strategy" {
@@ -260,8 +296,9 @@ variable "server_resources" {
 }
 
 variable "server_extra_containers" {
-  description = "Extra containers for Vault server as a raw YAML string"
-  default     = ""
+  description = "List of extra server containers"
+  type        = any
+  default     = []
 }
 
 variable "server_extra_args" {
@@ -489,8 +526,21 @@ variable "api_addr" {
 }
 
 variable "server_config" {
-  description = "Additional server configuration"
-  default     = {}
+  description = "Additional server configuration in HCL"
+  type        = string
+  default     = ""
+}
+
+variable "server_log_level" {
+  description = "Configure the logging verbosity for the Vault server. Supported log levels include: trace, debug, info, warn, error"
+  type        = string
+  default     = ""
+}
+
+variable "server_log_format" {
+  description = "Configure the logging format for the Vault server. Supported log formats include: standard, json"
+  type        = string
+  default     = ""
 }
 
 #############################
@@ -564,8 +614,9 @@ variable "raft_replica_zones" {
 }
 
 variable "raft_extra_parameters" {
-  description = "Extra parameters for Raft storage"
-  default     = {}
+  description = "Extra parameters for Raft storage in HCL"
+  type        = string
+  default     = ""
 }
 
 variable "raft_disk_labels" {
@@ -683,8 +734,9 @@ variable "storage_ha_enabled" {
 }
 
 variable "gcs_extra_parameters" {
-  description = "Additional paramaters for GCS storage. See https://www.vaultproject.io/docs/configuration/storage/google-cloud-storage"
-  default     = {}
+  description = "Additional paramaters for GCS storage in HCL. See https://www.vaultproject.io/docs/configuration/storage/google-cloud-storage "
+  type        = string
+  default     = ""
 }
 
 ##################################
