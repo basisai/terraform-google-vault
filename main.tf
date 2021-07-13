@@ -146,48 +146,62 @@ locals {
     raft_set_node_id = var.raft_set_node_id
     api_addr         = var.api_addr != null ? jsonencode(var.api_addr) : "null"
 
-    server_configuration = jsonencode(local.server_configuration)
+    server_configuration = local.server_configuration
+
+    server_log_level = var.server_log_level
+    server_log_format = var.server_log_format
   }
 
-  server_configuration = merge(
-    {
+  server_configuration = <<-EOF
       ui = true
 
-      listener = {
-        tcp = {
-          address         = "[::]:8200"
-          cluster_address = "[::]:8201"
+      listener "tcp" {
+        address         = "[::]:8200"
+        cluster_address = "[::]:8201"
 
-          tls_cert_file    = "${local.tls_secret_path}/${local.tls_secret_cert_key}"
-          tls_key_file     = "${local.tls_secret_path}/${local.tls_secret_key_key}"
-          tls_ciper_suites = var.tls_cipher_suites
+        tls_cert_file    = "${local.tls_secret_path}/${local.tls_secret_cert_key}"
+        tls_key_file     = "${local.tls_secret_path}/${local.tls_secret_key_key}"
+        tls_ciper_suites = "${var.tls_cipher_suites}"
 
-          telemetry = {
-            unauthenticated_metrics_access = var.unauthenticated_metrics_access
-          }
+        telemetry {
+          unauthenticated_metrics_access = ${var.unauthenticated_metrics_access}
         }
       }
 
-      seal = {
-        gcpckms = {
-          project    = google_kms_key_ring.vault.project
-          region     = google_kms_key_ring.vault.location
-          key_ring   = google_kms_key_ring.vault.name
-          crypto_key = google_kms_crypto_key.unseal.name
+      seal "gcpckms" {
+        project    = "${google_kms_key_ring.vault.project}"
+        region     = "${google_kms_key_ring.vault.location}"
+        key_ring   = "${google_kms_key_ring.vault.name}"
+        crypto_key = "${google_kms_crypto_key.unseal.name}"
+      }
+
+      service_registration "kubernetes" {}
+
+      %{ if var.raft_storage_enable && var.raft_storage_use }
+      storage "raft" {
+        path = "/vault/data"
+
+        %{ for i in range(var.server_replicas) }
+        retry_join {
+          leader_api_addr = "https://vault-${i}.${local.fullname}-internal.${var.kubernetes_namespace}.svc:8200"
+          leader_ca_cert  = ${jsonencode(var.tls_cert_ca)}
         }
-      }
+        %{ endfor }
 
-      service_registration = {
-        kubernetes = {}
+        ${var.raft_extra_parameters}
       }
+      %{ endif }
 
-      storage = merge(
-        var.raft_storage_enable && var.raft_storage_use ? local.raft_storage_config : {},
-        var.gcs_storage_enable && var.gcs_storage_use ? local.gcs_storage_config : {}
-      )
-    },
-    var.server_config,
-  )
+      %{ if var.gcs_storage_enable && var.gcs_storage_use }
+      storage "gcs" {
+          bucket     = "${var.gcs_storage_enable ? google_storage_bucket.vault[0].name : ""}"
+          ha_enabled = ${tostring(var.storage_ha_enabled)}
+
+        ${var.gcs_extra_parameters}
+      }
+      %{ endif }
+
+      EOF
 
   tls_secret_name = "${var.release_name}-tls"
   tls_secret_path = "/vault/tls"
@@ -205,31 +219,6 @@ locals {
   tls_volume_mount = {
     name      = "tls"
     mountPath = local.tls_secret_path
-  }
-
-  raft_storage_config = {
-    raft = merge(
-      {
-        path = "/vault/data"
-
-        retry_join = [
-          for i in range(var.server_replicas) :
-          {
-            leader_api_addr = "https://vault-${i}.${local.fullname}-internal.${var.kubernetes_namespace}.svc:8200"
-            leader_ca_cert  = var.tls_cert_ca
-          }
-        ]
-      },
-    var.raft_extra_parameters)
-  }
-
-  gcs_storage_config = {
-    gcs = merge(
-      {
-        bucket     = var.gcs_storage_enable ? google_storage_bucket.vault[0].name : "",
-        ha_enabled = tostring(var.storage_ha_enabled)
-      },
-    var.gcs_extra_parameters)
   }
 }
 

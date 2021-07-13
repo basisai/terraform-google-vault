@@ -34,7 +34,7 @@ injector:
     enabled: ${injector_leader_elector_enabled}
     image:
       repository: ${injector_leader_elector_image}
-      tag: ${injector_leader_elector_tag}
+      tag: "${injector_leader_elector_tag}"
     ttl: ${injector_leader_ttl}
 
   # If true, will enable a node exporter metrics endpoint at /metrics.
@@ -212,11 +212,11 @@ server:
 
   # Configure the logging verbosity for the Vault server.
   # Supported log levels include: trace, debug, info, warn, error
-  logLevel: ""
+  logLevel: "${server_log_level}"
 
   # Configure the logging format for the Vault server.
   # Supported log formats include: standard, json
-  logFormat: ""
+  logFormat: "${server_log_format}"
 
   resources: ${server_resources}
   # resources:
@@ -260,7 +260,7 @@ server:
   authDelegator:
     enabled: ${enable_auth_delegator}
 
-  # extraContainers is a list of sidecar containers. Specified as a raw YAML string.
+  # extraContainers is a list of sidecar containers. Specified as a YAML list.
   extraContainers: ${server_extra_containers}
 
   # shareProcessNamespace enables process namespace sharing between Vault and the extraContainers
@@ -365,7 +365,7 @@ server:
   # Example:
   # nodeSelector: |
   #   beta.kubernetes.io/arch: amd64
-  nodeSelector: {}
+  nodeSelector: null
 
   # Enables network policy for server pods
   networkPolicy:
@@ -521,11 +521,13 @@ server:
       enabled: ${raft_enable}
       # Set the Node Raft ID to the name of the pod
       setNodeId: ${raft_set_node_id}
-      config: ${server_configuration}
+      config: |
+        ${indent(8, server_configuration)}
     # config is a raw string of default configuration when using a Stateful
     # deployment. Default is to use a Consul for its HA storage backend.
     # This should be HCL.
-    config: ${server_configuration}
+    config: |
+      ${indent(6, server_configuration)}
 
     # A disruption budget limits the number of pods of a replicated application
     # that are down simultaneously from voluntary disruptions

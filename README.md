@@ -247,11 +247,11 @@ No modules.
 | <a name="input_auth_path"></a> [auth\_path](#input\_auth\_path) | Mount path of the Kubernetes Auth Engine that the injector will use | `string` | `"auth/kubernetes"` | no |
 | <a name="input_chart_name"></a> [chart\_name](#input\_chart\_name) | Helm chart name to provision | `string` | `"vault"` | no |
 | <a name="input_chart_repository"></a> [chart\_repository](#input\_chart\_repository) | Helm repository for the chart | `string` | `"https://helm.releases.hashicorp.com"` | no |
-| <a name="input_chart_version"></a> [chart\_version](#input\_chart\_version) | Version of Chart to install. Set to empty to install the latest version | `string` | `"0.10.0"` | no |
+| <a name="input_chart_version"></a> [chart\_version](#input\_chart\_version) | Version of Chart to install. Set to empty to install the latest version | `string` | `"0.13.0"` | no |
 | <a name="input_enable_auth_delegator"></a> [enable\_auth\_delegator](#input\_enable\_auth\_delegator) | uthDelegator enables a cluster role binding to be attached to the service account.  This cluster role binding can be used to setup Kubernetes auth method. https://www.vaultproject.io/docs/auth/kubernetes.html | `bool` | `true` | no |
 | <a name="input_external_vault_addr"></a> [external\_vault\_addr](#input\_external\_vault\_addr) | External vault server address for the injector to use. Setting this will disable deployment of a vault server along with the injector. | `string` | `""` | no |
 | <a name="input_fullname_override"></a> [fullname\_override](#input\_fullname\_override) | Helm resources full name override | `string` | `""` | no |
-| <a name="input_gcs_extra_parameters"></a> [gcs\_extra\_parameters](#input\_gcs\_extra\_parameters) | Additional paramaters for GCS storage. See https://www.vaultproject.io/docs/configuration/storage/google-cloud-storage | `map` | `{}` | no |
+| <a name="input_gcs_extra_parameters"></a> [gcs\_extra\_parameters](#input\_gcs\_extra\_parameters) | Additional paramaters for GCS storage in HCL. See https://www.vaultproject.io/docs/configuration/storage/google-cloud-storage | `string` | `""` | no |
 | <a name="input_gcs_storage_enable"></a> [gcs\_storage\_enable](#input\_gcs\_storage\_enable) | Enable the use of GCS Storage | `any` | n/a | yes |
 | <a name="input_gcs_storage_use"></a> [gcs\_storage\_use](#input\_gcs\_storage\_use) | Use GCS storage in Vault configuration. Setting this to false allows GCS storage resouces to be created but not used with Vault | `bool` | `true` | no |
 | <a name="input_gke_boot_disk_kms_key"></a> [gke\_boot\_disk\_kms\_key](#input\_gke\_boot\_disk\_kms\_key) | KMS Key to encrypt the boot disk. Set to `null` to not use any | `string` | `null` | no |
@@ -317,7 +317,7 @@ No modules.
 | <a name="input_raft_disk_snapshot_labels"></a> [raft\_disk\_snapshot\_labels](#input\_raft\_disk\_snapshot\_labels) | Override labels for Raft GCE PD snapshot resources. Will use `var.labels` if set to null | `map(string)` | `null` | no |
 | <a name="input_raft_disk_type"></a> [raft\_disk\_type](#input\_raft\_disk\_type) | Raft data disk type | `string` | `"pd-ssd"` | no |
 | <a name="input_raft_disk_zones"></a> [raft\_disk\_zones](#input\_raft\_disk\_zones) | List of zones for disks. If not set, will default to the zones in var.region | `list(string)` | `[]` | no |
-| <a name="input_raft_extra_parameters"></a> [raft\_extra\_parameters](#input\_raft\_extra\_parameters) | Extra parameters for Raft storage | `map` | `{}` | no |
+| <a name="input_raft_extra_parameters"></a> [raft\_extra\_parameters](#input\_raft\_extra\_parameters) | Extra parameters for Raft storage in HCL | `string` | `""` | no |
 | <a name="input_raft_persistent_disks_prefix"></a> [raft\_persistent\_disks\_prefix](#input\_raft\_persistent\_disks\_prefix) | Prefix of the name persistent disks for Vault to create. The prefix will be appended with the index | `string` | `"vault-data-"` | no |
 | <a name="input_raft_region"></a> [raft\_region](#input\_raft\_region) | GCP Region for Raft Disk resources | `string` | `""` | no |
 | <a name="input_raft_replica_zones"></a> [raft\_replica\_zones](#input\_raft\_replica\_zones) | List of replica zones for disks. If not set, will default to the zones in var.region | `list(list(string))` | <pre>[<br>  []<br>]</pre> | no |
@@ -336,16 +336,18 @@ No modules.
 | <a name="input_revoke_on_shutdown"></a> [revoke\_on\_shutdown](#input\_revoke\_on\_shutdown) | Attempt to revoke Vault Token on injected agent shutdown. | `bool` | `true` | no |
 | <a name="input_server_affinity"></a> [server\_affinity](#input\_server\_affinity) | Server affinity YAML string | `string` | `"podAntiAffinity:\n  requiredDuringSchedulingIgnoredDuringExecution:\n    - labelSelector:\n        matchLabels:\n          app.kubernetes.io/name: {{ template \"vault.name\" . }}\n          app.kubernetes.io/instance: \"{{ .Release.Name }}\"\n          component: server\n      topologyKey: kubernetes.io/hostname\n"` | no |
 | <a name="input_server_annotations"></a> [server\_annotations](#input\_server\_annotations) | Annotations for server | `map` | `{}` | no |
-| <a name="input_server_config"></a> [server\_config](#input\_server\_config) | Additional server configuration | `map` | `{}` | no |
+| <a name="input_server_config"></a> [server\_config](#input\_server\_config) | Additional server configuration in HCL | `string` | `""` | no |
 | <a name="input_server_enabled"></a> [server\_enabled](#input\_server\_enabled) | Enable Vault Server | `bool` | `true` | no |
 | <a name="input_server_env"></a> [server\_env](#input\_server\_env) | Server extra environment variables | `map` | `{}` | no |
 | <a name="input_server_extra_args"></a> [server\_extra\_args](#input\_server\_extra\_args) | Extra args for the server | `string` | `""` | no |
-| <a name="input_server_extra_containers"></a> [server\_extra\_containers](#input\_server\_extra\_containers) | Extra containers for Vault server as a raw YAML string | `string` | `""` | no |
+| <a name="input_server_extra_containers"></a> [server\_extra\_containers](#input\_server\_extra\_containers) | List of extra server containers | `any` | `[]` | no |
 | <a name="input_server_image_repository"></a> [server\_image\_repository](#input\_server\_image\_repository) | Server image repository | `string` | `"vault"` | no |
 | <a name="input_server_image_tag"></a> [server\_image\_tag](#input\_server\_image\_tag) | Server image tag | `string` | `"1.7.3"` | no |
 | <a name="input_server_labels"></a> [server\_labels](#input\_server\_labels) | Labels for server | `map` | `{}` | no |
 | <a name="input_server_liveness_probe_enable"></a> [server\_liveness\_probe\_enable](#input\_server\_liveness\_probe\_enable) | Enable server liness probe | `bool` | `true` | no |
 | <a name="input_server_liveness_probe_path"></a> [server\_liveness\_probe\_path](#input\_server\_liveness\_probe\_path) | Server liveness probe path | `string` | `"/v1/sys/health?standbyok=true"` | no |
+| <a name="input_server_log_format"></a> [server\_log\_format](#input\_server\_log\_format) | Configure the logging format for the Vault server. Supported log formats include: standard, json | `string` | `""` | no |
+| <a name="input_server_log_level"></a> [server\_log\_level](#input\_server\_log\_level) | Configure the logging verbosity for the Vault server. Supported log levels include: trace, debug, info, warn, error | `string` | `""` | no |
 | <a name="input_server_priority_class_name"></a> [server\_priority\_class\_name](#input\_server\_priority\_class\_name) | Priority class name for server pods | `string` | `""` | no |
 | <a name="input_server_readiness_probe_enable"></a> [server\_readiness\_probe\_enable](#input\_server\_readiness\_probe\_enable) | Enable server readiness probe | `bool` | `true` | no |
 | <a name="input_server_readiness_probe_path"></a> [server\_readiness\_probe\_path](#input\_server\_readiness\_probe\_path) | Path for server readiness probe | `string` | `""` | no |

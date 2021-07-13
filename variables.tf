@@ -296,8 +296,9 @@ variable "server_resources" {
 }
 
 variable "server_extra_containers" {
-  description = "Extra containers for Vault server as a raw YAML string"
-  default     = ""
+  description = "List of extra server containers"
+  type        = any
+  default     = []
 }
 
 variable "server_extra_args" {
@@ -525,8 +526,21 @@ variable "api_addr" {
 }
 
 variable "server_config" {
-  description = "Additional server configuration"
-  default     = {}
+  description = "Additional server configuration in HCL"
+  type        = string
+  default     = ""
+}
+
+variable "server_log_level" {
+  description = "Configure the logging verbosity for the Vault server. Supported log levels include: trace, debug, info, warn, error"
+  type        = string
+  default     = ""
+}
+
+variable "server_log_format" {
+  description = "Configure the logging format for the Vault server. Supported log formats include: standard, json"
+  type        = string
+  default     = ""
 }
 
 #############################
@@ -600,8 +614,9 @@ variable "raft_replica_zones" {
 }
 
 variable "raft_extra_parameters" {
-  description = "Extra parameters for Raft storage"
-  default     = {}
+  description = "Extra parameters for Raft storage in HCL"
+  type        = string
+  default     = ""
 }
 
 variable "raft_disk_labels" {
@@ -719,8 +734,9 @@ variable "storage_ha_enabled" {
 }
 
 variable "gcs_extra_parameters" {
-  description = "Additional paramaters for GCS storage. See https://www.vaultproject.io/docs/configuration/storage/google-cloud-storage"
-  default     = {}
+  description = "Additional paramaters for GCS storage in HCL. See https://www.vaultproject.io/docs/configuration/storage/google-cloud-storage "
+  type        = string
+  default     = ""
 }
 
 ##################################
