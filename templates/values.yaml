@@ -636,7 +636,7 @@ csi:
     # to the daemonSet.
     annotations: {}
 
-    pod:
+  pod:
     # Extra annotations for the provider pods. This can either be YAML or a
     # YAML-formatted multi-line templated string map of the annotations to apply
     # to the pod.
