@@ -104,7 +104,7 @@ variable "injector_image_repository" {
 
 variable "injector_image_tag" {
   description = "Image tag for Vault Injector"
-  default     = "0.9.0"
+  default     = "0.10.2"
 }
 
 variable "injector_log_level" {
@@ -192,7 +192,37 @@ variable "agent_image_repository" {
 
 variable "agent_image_tag" {
   description = "Image tag for the Vault agent that is injected"
-  default     = "1.7.0"
+  default     = "1.7.3"
+}
+
+variable "agent_default_cpu_request" {
+  description = "Default CPU request for injected agent containers"
+  type        = string
+  default     = "250m"
+}
+
+variable "agent_default_cpu_limit" {
+  description = "Default CPU Limit for injected agent containers"
+  type        = string
+  default     = "500m"
+}
+
+variable "agent_default_memory_request" {
+  description = "Default memory request for injected agent containers"
+  type        = string
+  default     = "128Mi"
+}
+
+variable "agent_default_memory_limit" {
+  description = "Default memory Limit for injected agent containers"
+  type        = string
+  default     = "128Mi"
+}
+
+variable "agent_default_template_type" {
+  description = "Default template type for secrets when no custom template is specified. Possible values include: \"json\" and \"map\"."
+  type        = string
+  default     = "map"
 }
 
 variable "auth_path" {
@@ -215,6 +245,12 @@ variable "object_selector" {
   default     = {}
 }
 
+variable "server_enabled" {
+  description = "Enable Vault Server"
+  type        = bool
+  default     = true
+}
+
 variable "server_replicas" {
   description = "Number of replicas. Should be either 3 or 5 for raft"
   default     = 5
@@ -227,7 +263,7 @@ variable "server_image_repository" {
 
 variable "server_image_tag" {
   description = "Server image tag"
-  default     = "1.7.0"
+  default     = "1.7.3"
 }
 
 variable "server_update_strategy" {

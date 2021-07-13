@@ -57,6 +57,13 @@ locals {
     agent_image_repository = var.agent_image_repository
     agent_image_tag        = var.agent_image_tag
 
+    agent_default_cpu_request    = var.agent_default_cpu_request
+    agent_default_cpu_limit      = var.agent_default_cpu_limit
+    agent_default_memory_request = var.agent_default_memory_request
+    agent_default_memory_limit   = var.agent_default_memory_limit
+
+    agent_default_template_type = var.agent_default_template_type
+
     auth_path          = var.auth_path
     revoke_on_shutdown = var.revoke_on_shutdown
 
@@ -69,6 +76,8 @@ locals {
     ####################################
     # Server
     ####################################
+    server_enabled = var.server_enabled
+
     server_image_repository = var.server_image_repository
     server_image_tag        = var.server_image_tag
     server_update_strategy  = var.server_update_strategy
