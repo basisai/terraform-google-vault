@@ -148,7 +148,7 @@ locals {
 
     server_configuration = local.server_configuration
 
-    server_log_level = var.server_log_level
+    server_log_level  = var.server_log_level
     server_log_format = var.server_log_format
   }
 
@@ -177,29 +177,29 @@ locals {
 
       service_registration "kubernetes" {}
 
-      %{ if var.raft_storage_enable && var.raft_storage_use }
+      %{if var.raft_storage_enable && var.raft_storage_use}
       storage "raft" {
         path = "/vault/data"
 
-        %{ for i in range(var.server_replicas) }
+        %{for i in range(var.server_replicas)}
         retry_join {
           leader_api_addr = "https://vault-${i}.${local.fullname}-internal.${var.kubernetes_namespace}.svc:8200"
           leader_ca_cert  = ${jsonencode(var.tls_cert_ca)}
         }
-        %{ endfor }
+        %{endfor}
 
         ${var.raft_extra_parameters}
       }
-      %{ endif }
+      %{endif}
 
-      %{ if var.gcs_storage_enable && var.gcs_storage_use }
+      %{if var.gcs_storage_enable && var.gcs_storage_use}
       storage "gcs" {
           bucket     = "${var.gcs_storage_enable ? google_storage_bucket.vault[0].name : ""}"
           ha_enabled = ${tostring(var.storage_ha_enabled)}
 
         ${var.gcs_extra_parameters}
       }
-      %{ endif }
+      %{endif}
 
       EOF
 
