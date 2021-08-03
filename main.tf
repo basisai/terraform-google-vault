@@ -64,8 +64,9 @@ locals {
 
     agent_default_template_type = var.agent_default_template_type
 
-    auth_path          = var.auth_path
-    revoke_on_shutdown = var.revoke_on_shutdown
+    auth_path             = var.auth_path
+    revoke_on_shutdown    = var.revoke_on_shutdown
+    exit_on_retry_failure = var.exit_on_retry_failure
 
     namespace_selector = jsonencode(var.namespace_selector)
     object_selector    = jsonencode(var.object_selector)

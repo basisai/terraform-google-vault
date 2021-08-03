@@ -241,14 +241,15 @@ No modules.
 | <a name="input_agent_default_memory_limit"></a> [agent\_default\_memory\_limit](#input\_agent\_default\_memory\_limit) | Default memory Limit for injected agent containers | `string` | `"128Mi"` | no |
 | <a name="input_agent_default_memory_request"></a> [agent\_default\_memory\_request](#input\_agent\_default\_memory\_request) | Default memory request for injected agent containers | `string` | `"128Mi"` | no |
 | <a name="input_agent_default_template_type"></a> [agent\_default\_template\_type](#input\_agent\_default\_template\_type) | Default template type for secrets when no custom template is specified. Possible values include: "json" and "map". | `string` | `"map"` | no |
-| <a name="input_agent_image_repository"></a> [agent\_image\_repository](#input\_agent\_image\_repository) | Image repository for the Vault agent that is injected | `string` | `"vault"` | no |
-| <a name="input_agent_image_tag"></a> [agent\_image\_tag](#input\_agent\_image\_tag) | Image tag for the Vault agent that is injected | `string` | `"1.7.3"` | no |
+| <a name="input_agent_image_repository"></a> [agent\_image\_repository](#input\_agent\_image\_repository) | Image repository for the Vault agent that is injected | `string` | `"hashicorp/vault"` | no |
+| <a name="input_agent_image_tag"></a> [agent\_image\_tag](#input\_agent\_image\_tag) | Image tag for the Vault agent that is injected | `string` | `"1.8.0"` | no |
 | <a name="input_api_addr"></a> [api\_addr](#input\_api\_addr) | Set the api\_addr configuration for Vault HA. See https://www.vaultproject.io/docs/configuration#api_addr If set to null, this will be set to the Pod IP Address | `any` | `null` | no |
 | <a name="input_auth_path"></a> [auth\_path](#input\_auth\_path) | Mount path of the Kubernetes Auth Engine that the injector will use | `string` | `"auth/kubernetes"` | no |
 | <a name="input_chart_name"></a> [chart\_name](#input\_chart\_name) | Helm chart name to provision | `string` | `"vault"` | no |
 | <a name="input_chart_repository"></a> [chart\_repository](#input\_chart\_repository) | Helm repository for the chart | `string` | `"https://helm.releases.hashicorp.com"` | no |
 | <a name="input_chart_version"></a> [chart\_version](#input\_chart\_version) | Version of Chart to install. Set to empty to install the latest version | `string` | `"0.13.0"` | no |
 | <a name="input_enable_auth_delegator"></a> [enable\_auth\_delegator](#input\_enable\_auth\_delegator) | uthDelegator enables a cluster role binding to be attached to the service account.  This cluster role binding can be used to setup Kubernetes auth method. https://www.vaultproject.io/docs/auth/kubernetes.html | `bool` | `true` | no |
+| <a name="input_exit_on_retry_failure"></a> [exit\_on\_retry\_failure](#input\_exit\_on\_retry\_failure) | Exit agent on templating failure | `bool` | `true` | no |
 | <a name="input_external_vault_addr"></a> [external\_vault\_addr](#input\_external\_vault\_addr) | External vault server address for the injector to use. Setting this will disable deployment of a vault server along with the injector. | `string` | `""` | no |
 | <a name="input_fullname_override"></a> [fullname\_override](#input\_fullname\_override) | Helm resources full name override | `string` | `""` | no |
 | <a name="input_gcs_extra_parameters"></a> [gcs\_extra\_parameters](#input\_gcs\_extra\_parameters) | Additional paramaters for GCS storage in HCL. See https://www.vaultproject.io/docs/configuration/storage/google-cloud-storage | `string` | `""` | no |
@@ -283,7 +284,7 @@ No modules.
 | <a name="input_injector_env"></a> [injector\_env](#input\_injector\_env) | Extra environment variable for the injector pods | `map` | `{}` | no |
 | <a name="input_injector_failure_policy"></a> [injector\_failure\_policy](#input\_injector\_failure\_policy) | Configures failurePolicy of the webhook. Default behaviour depends on the admission webhook version. See https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/#failure-policy | `string` | `"Ignore"` | no |
 | <a name="input_injector_image_repository"></a> [injector\_image\_repository](#input\_injector\_image\_repository) | Image repository for Vault Injector | `string` | `"hashicorp/vault-k8s"` | no |
-| <a name="input_injector_image_tag"></a> [injector\_image\_tag](#input\_injector\_image\_tag) | Image tag for Vault Injector | `string` | `"0.10.2"` | no |
+| <a name="input_injector_image_tag"></a> [injector\_image\_tag](#input\_injector\_image\_tag) | Image tag for Vault Injector | `string` | `"0.11.0"` | no |
 | <a name="input_injector_leader_elector_enabled"></a> [injector\_leader\_elector\_enabled](#input\_injector\_leader\_elector\_enabled) | Enable leader elector for Injector if > 1 replicas | `bool` | `true` | no |
 | <a name="input_injector_leader_elector_image"></a> [injector\_leader\_elector\_image](#input\_injector\_leader\_elector\_image) | Image for Injector leader elector | `string` | `"gcr.io/google_containers/leader-elector"` | no |
 | <a name="input_injector_leader_elector_tag"></a> [injector\_leader\_elector\_tag](#input\_injector\_leader\_elector\_tag) | Image tag for Injector leader elector | `string` | `"0.4"` | no |
@@ -341,8 +342,8 @@ No modules.
 | <a name="input_server_env"></a> [server\_env](#input\_server\_env) | Server extra environment variables | `map` | `{}` | no |
 | <a name="input_server_extra_args"></a> [server\_extra\_args](#input\_server\_extra\_args) | Extra args for the server | `string` | `""` | no |
 | <a name="input_server_extra_containers"></a> [server\_extra\_containers](#input\_server\_extra\_containers) | List of extra server containers | `any` | `[]` | no |
-| <a name="input_server_image_repository"></a> [server\_image\_repository](#input\_server\_image\_repository) | Server image repository | `string` | `"vault"` | no |
-| <a name="input_server_image_tag"></a> [server\_image\_tag](#input\_server\_image\_tag) | Server image tag | `string` | `"1.7.3"` | no |
+| <a name="input_server_image_repository"></a> [server\_image\_repository](#input\_server\_image\_repository) | Server image repository | `string` | `"hashicorp/vault"` | no |
+| <a name="input_server_image_tag"></a> [server\_image\_tag](#input\_server\_image\_tag) | Server image tag | `string` | `"1.8.0"` | no |
 | <a name="input_server_labels"></a> [server\_labels](#input\_server\_labels) | Labels for server | `map` | `{}` | no |
 | <a name="input_server_liveness_probe_enable"></a> [server\_liveness\_probe\_enable](#input\_server\_liveness\_probe\_enable) | Enable server liness probe | `bool` | `true` | no |
 | <a name="input_server_liveness_probe_path"></a> [server\_liveness\_probe\_path](#input\_server\_liveness\_probe\_path) | Server liveness probe path | `string` | `"/v1/sys/health?standbyok=true"` | no |
