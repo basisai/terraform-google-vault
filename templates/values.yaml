@@ -161,7 +161,7 @@ injector:
   # Example:
   # nodeSelector:
   #   beta.kubernetes.io/arch: amd64
-  nodeSelector: []
+  nodeSelector: null
 
   # Priority class for injector pods
   priorityClassName: "${injector_priority_class_name}"
@@ -385,7 +385,7 @@ server:
   # Example:
   # nodeSelector: |
   #   beta.kubernetes.io/arch: amd64
-  nodeSelector: []
+  nodeSelector: null
 
   # Enables network policy for server pods
   networkPolicy:
