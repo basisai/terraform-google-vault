@@ -74,7 +74,7 @@ injector:
 
     # Default values within Agent's template_config stanza.
     templateConfig:
-      exitOnRetryFailure: true
+      exitOnRetryFailure: ${exit_on_retry_failure}
 
   # Mount Path of the Vault Kubernetes Auth Method.
   authPath: ${auth_path}
