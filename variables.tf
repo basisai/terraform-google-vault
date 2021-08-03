@@ -104,7 +104,7 @@ variable "injector_image_repository" {
 
 variable "injector_image_tag" {
   description = "Image tag for Vault Injector"
-  default     = "0.10.2"
+  default     = "0.11.0"
 }
 
 variable "injector_log_level" {
@@ -187,12 +187,12 @@ variable "injector_leader_ttl" {
 
 variable "agent_image_repository" {
   description = "Image repository for the Vault agent that is injected"
-  default     = "vault"
+  default     = "hashicorp/vault"
 }
 
 variable "agent_image_tag" {
   description = "Image tag for the Vault agent that is injected"
-  default     = "1.7.3"
+  default     = "1.8.0"
 }
 
 variable "agent_default_cpu_request" {
@@ -235,6 +235,12 @@ variable "revoke_on_shutdown" {
   default     = true
 }
 
+variable "exit_on_retry_failure" {
+  description = "Exit agent on templating failure"
+  type        = bool
+  default     = true
+}
+
 variable "namespace_selector" {
   description = "The selector for restricting the webhook to only specific namespaces. See https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/#matching-requests-namespaceselector for more details."
   default     = {}
@@ -258,12 +264,12 @@ variable "server_replicas" {
 
 variable "server_image_repository" {
   description = "Server image repository"
-  default     = "vault"
+  default     = "hashicorp/vault"
 }
 
 variable "server_image_tag" {
   description = "Server image tag"
-  default     = "1.7.3"
+  default     = "1.8.0"
 }
 
 variable "server_update_strategy" {
