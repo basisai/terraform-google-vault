@@ -35,7 +35,7 @@ variable "chart_repository" {
 
 variable "chart_version" {
   description = "Version of Chart to install. Set to empty to install the latest version"
-  default     = "0.13.0"
+  default     = "0.15.0"
 }
 
 variable "max_history" {
@@ -104,7 +104,7 @@ variable "injector_image_repository" {
 
 variable "injector_image_tag" {
   description = "Image tag for Vault Injector"
-  default     = "0.11.0"
+  default     = "0.12.0"
 }
 
 variable "injector_log_level" {
@@ -192,7 +192,7 @@ variable "agent_image_repository" {
 
 variable "agent_image_tag" {
   description = "Image tag for the Vault agent that is injected"
-  default     = "1.8.0"
+  default     = "1.8.2"
 }
 
 variable "agent_default_cpu_request" {
@@ -269,7 +269,7 @@ variable "server_image_repository" {
 
 variable "server_image_tag" {
   description = "Server image tag"
-  default     = "1.8.0"
+  default     = "1.8.2"
 }
 
 variable "server_update_strategy" {
