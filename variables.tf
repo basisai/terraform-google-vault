@@ -35,7 +35,7 @@ variable "chart_repository" {
 
 variable "chart_version" {
   description = "Version of Chart to install. Set to empty to install the latest version"
-  default     = "0.15.0"
+  default     = "0.16.0"
 }
 
 variable "max_history" {
@@ -104,7 +104,7 @@ variable "injector_image_repository" {
 
 variable "injector_image_tag" {
   description = "Image tag for Vault Injector"
-  default     = "0.12.0"
+  default     = "0.13.0"
 }
 
 variable "injector_log_level" {
