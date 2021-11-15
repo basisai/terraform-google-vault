@@ -38,7 +38,7 @@ resource "google_compute_region_disk" "raft" {
   project = var.project_id
 
   disk_encryption_key {
-    kms_key_name = google_kms_crypto_key.storage.self_link
+    kms_key_name = google_kms_crypto_key.storage.id
   }
 }
 
