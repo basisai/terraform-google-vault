@@ -178,8 +178,8 @@ unsealing Vault if the nodes have access to the keys.
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.14 |
-| <a name="requirement_google-beta"></a> [google-beta](#requirement\_google-beta) | >= 3.70, < 4 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.15 |
+| <a name="requirement_google-beta"></a> [google-beta](#requirement\_google-beta) | >= 4.0 |
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | >= 2.0 |
 | <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | >= 2.0 |
 
@@ -187,7 +187,7 @@ unsealing Vault if the nodes have access to the keys.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_google-beta"></a> [google-beta](#provider\_google-beta) | >= 3.70, < 4 |
+| <a name="provider_google-beta"></a> [google-beta](#provider\_google-beta) | >= 4.0 |
 | <a name="provider_helm"></a> [helm](#provider\_helm) | >= 2.0 |
 | <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | >= 2.0 |
 | <a name="provider_local"></a> [local](#provider\_local) | n/a |

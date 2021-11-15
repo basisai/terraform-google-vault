@@ -14,7 +14,7 @@ resource "google_kms_crypto_key" "unseal" {
   provider = google-beta
 
   name     = var.unseal_key_name
-  key_ring = google_kms_key_ring.vault.self_link
+  key_ring = google_kms_key_ring.vault.id
 
   rotation_period = var.unseal_key_rotation_period
 
@@ -27,7 +27,7 @@ resource "google_kms_crypto_key" "storage" {
   provider = google-beta
 
   name     = var.storage_key_name
-  key_ring = google_kms_key_ring.vault.self_link
+  key_ring = google_kms_key_ring.vault.id
 
   rotation_period = var.storage_key_rotation_period
 

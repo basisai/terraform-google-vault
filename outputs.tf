@@ -5,7 +5,7 @@ output "release_name" {
 
 output "key_ring_self_link" {
   description = "Self-link of the KMS Keyring created for Vault"
-  value       = google_kms_key_ring.vault.self_link
+  value       = google_kms_key_ring.vault.id
 }
 
 output "unseal_key_self_link" {
