@@ -338,6 +338,7 @@ No modules.
 | <a name="input_server_affinity"></a> [server\_affinity](#input\_server\_affinity) | Server affinity YAML string | `string` | `"podAntiAffinity:\n  requiredDuringSchedulingIgnoredDuringExecution:\n    - labelSelector:\n        matchLabels:\n          app.kubernetes.io/name: {{ template \"vault.name\" . }}\n          app.kubernetes.io/instance: \"{{ .Release.Name }}\"\n          component: server\n      topologyKey: kubernetes.io/hostname\n"` | no |
 | <a name="input_server_annotations"></a> [server\_annotations](#input\_server\_annotations) | Annotations for server | `map` | `{}` | no |
 | <a name="input_server_config"></a> [server\_config](#input\_server\_config) | Additional server configuration in HCL | `string` | `""` | no |
+| <a name="input_server_configuration"></a> [server\_configuration](#input\_server\_configuration) | Additional configuration for the server in HCL that will be appended to the module's configuration | `string` | `""` | no |
 | <a name="input_server_enabled"></a> [server\_enabled](#input\_server\_enabled) | Enable Vault Server | `bool` | `true` | no |
 | <a name="input_server_env"></a> [server\_env](#input\_server\_env) | Server extra environment variables | `map` | `{}` | no |
 | <a name="input_server_extra_args"></a> [server\_extra\_args](#input\_server\_extra\_args) | Extra args for the server | `string` | `""` | no |
