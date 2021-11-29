@@ -202,6 +202,9 @@ locals {
       }
       %{endif}
 
+      %{if var.server_config != "" && var.server_config != null}
+      ${var.server_config}
+      %{endif}
       EOF
 
   tls_secret_name = "${var.release_name}-tls"

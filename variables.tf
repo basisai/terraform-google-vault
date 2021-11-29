@@ -532,7 +532,7 @@ variable "api_addr" {
 }
 
 variable "server_config" {
-  description = "Additional server configuration in HCL"
+  description = "Additional configuration for the server in HCL that will be appended to the module's configuration"
   type        = string
   default     = ""
 }
