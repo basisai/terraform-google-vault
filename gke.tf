@@ -67,7 +67,7 @@ resource "google_container_node_pool" "vault" {
 
     # See https://cloud.google.com/kubernetes-engine/docs/how-to/protecting-cluster-metadata#concealment
     workload_metadata_config {
-      mode = var.workload_identity_enable ? "GKE_METADATA_SERVER" : "GCE_METADATA"
+      mode = var.workload_identity_enable ? "GKE_METADATA" : "GCE_METADATA"
     }
 
     shielded_instance_config {
