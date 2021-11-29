@@ -178,7 +178,7 @@ locals {
 
       service_registration "kubernetes" {}
 
-      %{~if var.raft_storage_enable && var.raft_storage_use}
+      %{if var.raft_storage_enable && var.raft_storage_use}
       storage "raft" {
         path = "/vault/data"
 
@@ -191,20 +191,20 @@ locals {
 
         ${var.raft_extra_parameters}
       }
-      %{~endif}
+      %{endif}
 
-      %{~if var.gcs_storage_enable && var.gcs_storage_use}
+      %{if var.gcs_storage_enable && var.gcs_storage_use}
       storage "gcs" {
           bucket     = "${var.gcs_storage_enable ? google_storage_bucket.vault[0].name : ""}"
           ha_enabled = ${tostring(var.storage_ha_enabled)}
 
         ${var.gcs_extra_parameters}
       }
-      %{~endif}
+      %{endif}
 
-      %{~if var.server_configuration != "" && var.server_configuration != null}
-      ${var.server_configuration}
-      %{~endif}
+      %{if var.server_config != "" && var.server_config != null}
+      ${var.server_config}
+      %{endif}
       EOF
 
   tls_secret_name = "${var.release_name}-tls"

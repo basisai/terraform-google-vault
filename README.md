@@ -254,8 +254,7 @@ No modules.
 | <a name="input_fullname_override"></a> [fullname\_override](#input\_fullname\_override) | Helm resources full name override | `string` | `""` | no |
 | <a name="input_gcs_extra_parameters"></a> [gcs\_extra\_parameters](#input\_gcs\_extra\_parameters) | Additional paramaters for GCS storage in HCL. See https://www.vaultproject.io/docs/configuration/storage/google-cloud-storage | `string` | `""` | no |
 | <a name="input_gcs_storage_enable"></a> [gcs\_storage\_enable](#input\_gcs\_storage\_enable) | Enable the use of GCS Storage | `any` | n/a | yes |
-| <a name="input_gcs_storage_use"></a> [gcs\_storage\_use](#input\_gcs\_storage\_use) | Use GCS storage in Vault configuration. Setting this to false allows GCS storage resouces to be created but not used with Vault | `bool` | `true` | no |
-| <a name="input_gke_boot_disk_kms_key"></a> [gke\_boot\_disk\_kms\_key](#input\_gke\_boot\_disk\_kms\_key) | KMS Key to encrypt the boot disk. Set to `null` to not use any | `string` | `null` | no |
+| <a name="input_gcs_storage_use"></a> [gcs\_storage\_use](#input\_gcs\_storage\_use) | Use GCS storage in Vault configuration. Setting this to false allows GCS storage resouces to be created but not used with Vault | `bool` | `true` | no || <a name="input_gke_boot_disk_kms_key"></a> [gke\_boot\_disk\_kms\_key](#input\_gke\_boot\_disk\_kms\_key) | KMS Key to encrypt the boot disk. Set to `null` to not use any | `string` | `null` | no |
 | <a name="input_gke_cluster"></a> [gke\_cluster](#input\_gke\_cluster) | Cluster to create node pool for | `string` | `"<REQUIRED if gke_pool_create is true>"` | no |
 | <a name="input_gke_disk_type"></a> [gke\_disk\_type](#input\_gke\_disk\_type) | Disk type for the nodes | `string` | `"pd-standard"` | no |
 | <a name="input_gke_enable_integrity_monitoring"></a> [gke\_enable\_integrity\_monitoring](#input\_gke\_enable\_integrity\_monitoring) | Enable integrity monitoring of nodes | `bool` | `false` | no |
@@ -315,8 +314,7 @@ No modules.
 | <a name="input_raft_disk_labels"></a> [raft\_disk\_labels](#input\_raft\_disk\_labels) | Override labels for Raft GCE PD resources. Will use `var.labels` if set to null | `map(string)` | `null` | no |
 | <a name="input_raft_disk_regional"></a> [raft\_disk\_regional](#input\_raft\_disk\_regional) | Use regional disks instead of zonal disks | `bool` | `true` | no |
 | <a name="input_raft_disk_size"></a> [raft\_disk\_size](#input\_raft\_disk\_size) | Size of Raft disks in GB | `number` | `10` | no |
-| <a name="input_raft_disk_snapshot_labels"></a> [raft\_disk\_snapshot\_labels](#input\_raft\_disk\_snapshot\_labels) | Override labels for Raft GCE PD snapshot resources. Will use `var.labels` if set to null | `map(string)` | `null` | no |
-| <a name="input_raft_disk_type"></a> [raft\_disk\_type](#input\_raft\_disk\_type) | Raft data disk type | `string` | `"pd-ssd"` | no |
+| <a name="input_raft_disk_snapshot_labels"></a> [raft\_disk\_snapshot\_labels](#input\_raft\_disk\_snapshot\_labels) | Override labels for Raft GCE PD snapshot resources. Will use `var.labels` if set to null | `map(string)` | `null` | no || <a name="input_raft_disk_type"></a> [raft\_disk\_type](#input\_raft\_disk\_type) | Raft data disk type | `string` | `"pd-ssd"` | no |
 | <a name="input_raft_disk_zones"></a> [raft\_disk\_zones](#input\_raft\_disk\_zones) | List of zones for disks. If not set, will default to the zones in var.region | `list(string)` | `[]` | no |
 | <a name="input_raft_extra_parameters"></a> [raft\_extra\_parameters](#input\_raft\_extra\_parameters) | Extra parameters for Raft storage in HCL | `string` | `""` | no |
 | <a name="input_raft_persistent_disks_prefix"></a> [raft\_persistent\_disks\_prefix](#input\_raft\_persistent\_disks\_prefix) | Prefix of the name persistent disks for Vault to create. The prefix will be appended with the index | `string` | `"vault-data-"` | no |
@@ -337,8 +335,7 @@ No modules.
 | <a name="input_revoke_on_shutdown"></a> [revoke\_on\_shutdown](#input\_revoke\_on\_shutdown) | Attempt to revoke Vault Token on injected agent shutdown. | `bool` | `true` | no |
 | <a name="input_server_affinity"></a> [server\_affinity](#input\_server\_affinity) | Server affinity YAML string | `string` | `"podAntiAffinity:\n  requiredDuringSchedulingIgnoredDuringExecution:\n    - labelSelector:\n        matchLabels:\n          app.kubernetes.io/name: {{ template \"vault.name\" . }}\n          app.kubernetes.io/instance: \"{{ .Release.Name }}\"\n          component: server\n      topologyKey: kubernetes.io/hostname\n"` | no |
 | <a name="input_server_annotations"></a> [server\_annotations](#input\_server\_annotations) | Annotations for server | `map` | `{}` | no |
-| <a name="input_server_config"></a> [server\_config](#input\_server\_config) | Additional server configuration in HCL | `string` | `""` | no |
-| <a name="input_server_configuration"></a> [server\_configuration](#input\_server\_configuration) | Additional configuration for the server in HCL that will be appended to the module's configuration | `string` | `""` | no |
+| <a name="input_server_config"></a> [server\_config](#input\_server\_config) | Additional configuration for the server in HCL that will be appended to the module's configuration | `string` | `""` | no |
 | <a name="input_server_enabled"></a> [server\_enabled](#input\_server\_enabled) | Enable Vault Server | `bool` | `true` | no |
 | <a name="input_server_env"></a> [server\_env](#input\_server\_env) | Server extra environment variables | `map` | `{}` | no |
 | <a name="input_server_extra_args"></a> [server\_extra\_args](#input\_server\_extra\_args) | Extra args for the server | `string` | `""` | no |

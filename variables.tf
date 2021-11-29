@@ -257,12 +257,6 @@ variable "server_enabled" {
   default     = true
 }
 
-variable "server_configuration" {
-  description = "Additional configuration for the server in HCL that will be appended to the module's configuration"
-  type        = string
-  default     = ""
-}
-
 variable "server_replicas" {
   description = "Number of replicas. Should be either 3 or 5 for raft"
   default     = 5
@@ -538,7 +532,7 @@ variable "api_addr" {
 }
 
 variable "server_config" {
-  description = "Additional server configuration in HCL"
+  description = "Additional configuration for the server in HCL that will be appended to the module's configuration"
   type        = string
   default     = ""
 }
