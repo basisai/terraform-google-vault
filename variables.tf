@@ -35,7 +35,7 @@ variable "chart_repository" {
 
 variable "chart_version" {
   description = "Version of Chart to install. Set to empty to install the latest version"
-  default     = "0.16.0"
+  default     = "0.18.0"
 }
 
 variable "max_history" {
@@ -104,7 +104,7 @@ variable "injector_image_repository" {
 
 variable "injector_image_tag" {
   description = "Image tag for Vault Injector"
-  default     = "0.13.0"
+  default     = "0.14.1"
 }
 
 variable "injector_log_level" {
@@ -170,21 +170,6 @@ variable "injector_leader_elector_enabled" {
   default     = true
 }
 
-variable "injector_leader_elector_image" {
-  description = "Image for Injector leader elector"
-  default     = "gcr.io/google_containers/leader-elector"
-}
-
-variable "injector_leader_elector_tag" {
-  description = "Image tag for Injector leader elector"
-  default     = "0.4"
-}
-
-variable "injector_leader_ttl" {
-  description = "TTL for a injector leader"
-  default     = "60s"
-}
-
 variable "agent_image_repository" {
   description = "Image repository for the Vault agent that is injected"
   default     = "hashicorp/vault"
@@ -192,7 +177,7 @@ variable "agent_image_repository" {
 
 variable "agent_image_tag" {
   description = "Image tag for the Vault agent that is injected"
-  default     = "1.8.2"
+  default     = "1.9.0"
 }
 
 variable "agent_default_cpu_request" {
@@ -241,6 +226,12 @@ variable "exit_on_retry_failure" {
   default     = true
 }
 
+variable "static_secret_render_interval" {
+  description = "Static secret render interval for the agent"
+  type        = string
+  default     = ""
+}
+
 variable "namespace_selector" {
   description = "The selector for restricting the webhook to only specific namespaces. See https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/#matching-requests-namespaceselector for more details."
   default     = {}
@@ -269,7 +260,7 @@ variable "server_image_repository" {
 
 variable "server_image_tag" {
   description = "Server image tag"
-  default     = "1.8.2"
+  default     = "1.9.0"
 }
 
 variable "server_update_strategy" {
@@ -396,6 +387,12 @@ variable "service_type" {
   default     = "ClusterIP"
 }
 
+variable "external_traffic_policy" {
+  description = "External traffic policy for Vault. Only applicable for LoadBlaancer/NodePort"
+  type        = string
+  default     = "Cluster"
+}
+
 variable "node_port" {
   description = "If type is set to 'NodePort', a specific nodePort value can be configured, will be random if left blank."
   default     = "30000"
@@ -409,6 +406,12 @@ variable "service_annotations" {
 variable "ingress_enabled" {
   description = "Enable ingress for the server"
   default     = false
+}
+
+variable "ingress_class_name" {
+  description = "Ingress Class name for the server"
+  type        = string
+  default     = ""
 }
 
 variable "ingress_labels" {
@@ -474,6 +477,12 @@ variable "ui_active_vault_pod_only" {
 variable "ui_service_type" {
   description = "Service Type for UI"
   default     = "ClusterIP"
+}
+
+variable "ui_external_traffic_policy" {
+  description = "External traffic policy for UI. Only applicable for LoadBlaancer/NodePort"
+  type        = string
+  default     = "Cluster"
 }
 
 variable "ui_service_node_port" {

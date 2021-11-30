@@ -50,9 +50,6 @@ locals {
 
     injector_replicas               = var.injector_replicas
     injector_leader_elector_enabled = var.injector_leader_elector_enabled
-    injector_leader_elector_image   = var.injector_leader_elector_image
-    injector_leader_elector_tag     = var.injector_leader_elector_tag
-    injector_leader_ttl             = var.injector_leader_ttl
 
     agent_image_repository = var.agent_image_repository
     agent_image_tag        = var.agent_image_tag
@@ -64,9 +61,10 @@ locals {
 
     agent_default_template_type = var.agent_default_template_type
 
-    auth_path             = var.auth_path
-    revoke_on_shutdown    = var.revoke_on_shutdown
-    exit_on_retry_failure = var.exit_on_retry_failure
+    auth_path                     = var.auth_path
+    revoke_on_shutdown            = var.revoke_on_shutdown
+    exit_on_retry_failure         = var.exit_on_retry_failure
+    static_secret_render_interval = var.static_secret_render_interval
 
     namespace_selector = jsonencode(var.namespace_selector)
     object_selector    = jsonencode(var.object_selector)
@@ -104,9 +102,10 @@ locals {
     server_liveness_probe_enable  = var.server_liveness_probe_enable
     server_liveness_probe_path    = var.server_liveness_probe_path
 
-    service_type        = var.service_type
-    service_annotations = jsonencode(var.service_annotations)
-    node_port           = var.node_port
+    service_type            = var.service_type
+    service_annotations     = jsonencode(var.service_annotations)
+    node_port               = var.node_port
+    external_traffic_policy = var.external_traffic_policy
 
     ui_service_enable              = var.ui_service_enable
     ui_publish_unready             = var.ui_publish_unready
@@ -114,11 +113,13 @@ locals {
     ui_service_type                = var.ui_service_type
     ui_service_node_port           = var.ui_service_node_port != "" ? var.ui_service_node_port : "null"
     ui_service_port                = var.ui_service_port
+    ui_external_traffic_policy     = var.ui_external_traffic_policy
     ui_load_balancer_source_ranges = var.ui_load_balancer_source_ranges != [] ? jsonencode(var.ui_load_balancer_source_ranges) : "null"
     ui_load_balancer_ip            = var.ui_load_balancer_ip
     ui_annotations                 = jsonencode(var.ui_annotations)
 
     ingress_enabled     = var.ingress_enabled
+    ingress_class_name  = var.ingress_class_name
     ingress_labels      = jsonencode(var.ingress_labels)
     ingress_annotations = jsonencode(var.ingress_annotations)
     ingress_hosts       = jsonencode(var.ingress_hosts)
