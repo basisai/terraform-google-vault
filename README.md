@@ -242,19 +242,21 @@ No modules.
 | <a name="input_agent_default_memory_request"></a> [agent\_default\_memory\_request](#input\_agent\_default\_memory\_request) | Default memory request for injected agent containers | `string` | `"128Mi"` | no |
 | <a name="input_agent_default_template_type"></a> [agent\_default\_template\_type](#input\_agent\_default\_template\_type) | Default template type for secrets when no custom template is specified. Possible values include: "json" and "map". | `string` | `"map"` | no |
 | <a name="input_agent_image_repository"></a> [agent\_image\_repository](#input\_agent\_image\_repository) | Image repository for the Vault agent that is injected | `string` | `"hashicorp/vault"` | no |
-| <a name="input_agent_image_tag"></a> [agent\_image\_tag](#input\_agent\_image\_tag) | Image tag for the Vault agent that is injected | `string` | `"1.8.2"` | no |
+| <a name="input_agent_image_tag"></a> [agent\_image\_tag](#input\_agent\_image\_tag) | Image tag for the Vault agent that is injected | `string` | `"1.9.0"` | no |
 | <a name="input_api_addr"></a> [api\_addr](#input\_api\_addr) | Set the api\_addr configuration for Vault HA. See https://www.vaultproject.io/docs/configuration#api_addr If set to null, this will be set to the Pod IP Address | `any` | `null` | no |
 | <a name="input_auth_path"></a> [auth\_path](#input\_auth\_path) | Mount path of the Kubernetes Auth Engine that the injector will use | `string` | `"auth/kubernetes"` | no |
 | <a name="input_chart_name"></a> [chart\_name](#input\_chart\_name) | Helm chart name to provision | `string` | `"vault"` | no |
 | <a name="input_chart_repository"></a> [chart\_repository](#input\_chart\_repository) | Helm repository for the chart | `string` | `"https://helm.releases.hashicorp.com"` | no |
-| <a name="input_chart_version"></a> [chart\_version](#input\_chart\_version) | Version of Chart to install. Set to empty to install the latest version | `string` | `"0.16.0"` | no |
+| <a name="input_chart_version"></a> [chart\_version](#input\_chart\_version) | Version of Chart to install. Set to empty to install the latest version | `string` | `"0.18.0"` | no |
 | <a name="input_enable_auth_delegator"></a> [enable\_auth\_delegator](#input\_enable\_auth\_delegator) | uthDelegator enables a cluster role binding to be attached to the service account.  This cluster role binding can be used to setup Kubernetes auth method. https://www.vaultproject.io/docs/auth/kubernetes.html | `bool` | `true` | no |
 | <a name="input_exit_on_retry_failure"></a> [exit\_on\_retry\_failure](#input\_exit\_on\_retry\_failure) | Exit agent on templating failure | `bool` | `true` | no |
+| <a name="input_external_traffic_policy"></a> [external\_traffic\_policy](#input\_external\_traffic\_policy) | External traffic policy for Vault. Only applicable for LoadBlaancer/NodePort | `string` | `"Cluster"` | no |
 | <a name="input_external_vault_addr"></a> [external\_vault\_addr](#input\_external\_vault\_addr) | External vault server address for the injector to use. Setting this will disable deployment of a vault server along with the injector. | `string` | `""` | no |
 | <a name="input_fullname_override"></a> [fullname\_override](#input\_fullname\_override) | Helm resources full name override | `string` | `""` | no |
 | <a name="input_gcs_extra_parameters"></a> [gcs\_extra\_parameters](#input\_gcs\_extra\_parameters) | Additional paramaters for GCS storage in HCL. See https://www.vaultproject.io/docs/configuration/storage/google-cloud-storage | `string` | `""` | no |
 | <a name="input_gcs_storage_enable"></a> [gcs\_storage\_enable](#input\_gcs\_storage\_enable) | Enable the use of GCS Storage | `any` | n/a | yes |
-| <a name="input_gcs_storage_use"></a> [gcs\_storage\_use](#input\_gcs\_storage\_use) | Use GCS storage in Vault configuration. Setting this to false allows GCS storage resouces to be created but not used with Vault | `bool` | `true` | no || <a name="input_gke_boot_disk_kms_key"></a> [gke\_boot\_disk\_kms\_key](#input\_gke\_boot\_disk\_kms\_key) | KMS Key to encrypt the boot disk. Set to `null` to not use any | `string` | `null` | no |
+| <a name="input_gcs_storage_use"></a> [gcs\_storage\_use](#input\_gcs\_storage\_use) | Use GCS storage in Vault configuration. Setting this to false allows GCS storage resouces to be created but not used with Vault | `bool` | `true` | no |
+| <a name="input_gke_boot_disk_kms_key"></a> [gke\_boot\_disk\_kms\_key](#input\_gke\_boot\_disk\_kms\_key) | KMS Key to encrypt the boot disk. Set to `null` to not use any | `string` | `null` | no |
 | <a name="input_gke_cluster"></a> [gke\_cluster](#input\_gke\_cluster) | Cluster to create node pool for | `string` | `"<REQUIRED if gke_pool_create is true>"` | no |
 | <a name="input_gke_disk_type"></a> [gke\_disk\_type](#input\_gke\_disk\_type) | Disk type for the nodes | `string` | `"pd-standard"` | no |
 | <a name="input_gke_enable_integrity_monitoring"></a> [gke\_enable\_integrity\_monitoring](#input\_gke\_enable\_integrity\_monitoring) | Enable integrity monitoring of nodes | `bool` | `false` | no |
@@ -274,6 +276,7 @@ No modules.
 | <a name="input_gke_taints"></a> [gke\_taints](#input\_gke\_taints) | List of map of taints for GKE nodes. It is highly recommended you do set this alongside the pods toleration. See https://www.terraform.io/docs/providers/google/r/container_cluster.html#key for the keys and the README for more information | `list` | `[]` | no |
 | <a name="input_global_enabled"></a> [global\_enabled](#input\_global\_enabled) | Globally enable or disable chart resources | `bool` | `true` | no |
 | <a name="input_ingress_annotations"></a> [ingress\_annotations](#input\_ingress\_annotations) | Annotations for server ingress | `map` | `{}` | no |
+| <a name="input_ingress_class_name"></a> [ingress\_class\_name](#input\_ingress\_class\_name) | Ingress Class name for the server | `string` | `""` | no |
 | <a name="input_ingress_enabled"></a> [ingress\_enabled](#input\_ingress\_enabled) | Enable ingress for the server | `bool` | `false` | no |
 | <a name="input_ingress_hosts"></a> [ingress\_hosts](#input\_ingress\_hosts) | Hosts for server ingress | `list` | <pre>[<br>  {<br>    "host": "chart-example.local",<br>    "paths": []<br>  }<br>]</pre> | no |
 | <a name="input_ingress_labels"></a> [ingress\_labels](#input\_ingress\_labels) | Labels for server ingress | `map` | `{}` | no |
@@ -283,11 +286,8 @@ No modules.
 | <a name="input_injector_env"></a> [injector\_env](#input\_injector\_env) | Extra environment variable for the injector pods | `map` | `{}` | no |
 | <a name="input_injector_failure_policy"></a> [injector\_failure\_policy](#input\_injector\_failure\_policy) | Configures failurePolicy of the webhook. Default behaviour depends on the admission webhook version. See https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/#failure-policy | `string` | `"Ignore"` | no |
 | <a name="input_injector_image_repository"></a> [injector\_image\_repository](#input\_injector\_image\_repository) | Image repository for Vault Injector | `string` | `"hashicorp/vault-k8s"` | no |
-| <a name="input_injector_image_tag"></a> [injector\_image\_tag](#input\_injector\_image\_tag) | Image tag for Vault Injector | `string` | `"0.13.0"` | no |
+| <a name="input_injector_image_tag"></a> [injector\_image\_tag](#input\_injector\_image\_tag) | Image tag for Vault Injector | `string` | `"0.14.1"` | no |
 | <a name="input_injector_leader_elector_enabled"></a> [injector\_leader\_elector\_enabled](#input\_injector\_leader\_elector\_enabled) | Enable leader elector for Injector if > 1 replicas | `bool` | `true` | no |
-| <a name="input_injector_leader_elector_image"></a> [injector\_leader\_elector\_image](#input\_injector\_leader\_elector\_image) | Image for Injector leader elector | `string` | `"gcr.io/google_containers/leader-elector"` | no |
-| <a name="input_injector_leader_elector_tag"></a> [injector\_leader\_elector\_tag](#input\_injector\_leader\_elector\_tag) | Image tag for Injector leader elector | `string` | `"0.4"` | no |
-| <a name="input_injector_leader_ttl"></a> [injector\_leader\_ttl](#input\_injector\_leader\_ttl) | TTL for a injector leader | `string` | `"60s"` | no |
 | <a name="input_injector_log_format"></a> [injector\_log\_format](#input\_injector\_log\_format) | Log format for the injector. standard or json | `string` | `"standard"` | no |
 | <a name="input_injector_log_level"></a> [injector\_log\_level](#input\_injector\_log\_level) | Log level for the injector. Supported log levels: trace, debug, error, warn, info | `string` | `"info"` | no |
 | <a name="input_injector_metrics_enabled"></a> [injector\_metrics\_enabled](#input\_injector\_metrics\_enabled) | enable a node exporter metrics endpoint at /metrics | `bool` | `false` | no |
@@ -314,7 +314,8 @@ No modules.
 | <a name="input_raft_disk_labels"></a> [raft\_disk\_labels](#input\_raft\_disk\_labels) | Override labels for Raft GCE PD resources. Will use `var.labels` if set to null | `map(string)` | `null` | no |
 | <a name="input_raft_disk_regional"></a> [raft\_disk\_regional](#input\_raft\_disk\_regional) | Use regional disks instead of zonal disks | `bool` | `true` | no |
 | <a name="input_raft_disk_size"></a> [raft\_disk\_size](#input\_raft\_disk\_size) | Size of Raft disks in GB | `number` | `10` | no |
-| <a name="input_raft_disk_snapshot_labels"></a> [raft\_disk\_snapshot\_labels](#input\_raft\_disk\_snapshot\_labels) | Override labels for Raft GCE PD snapshot resources. Will use `var.labels` if set to null | `map(string)` | `null` | no || <a name="input_raft_disk_type"></a> [raft\_disk\_type](#input\_raft\_disk\_type) | Raft data disk type | `string` | `"pd-ssd"` | no |
+| <a name="input_raft_disk_snapshot_labels"></a> [raft\_disk\_snapshot\_labels](#input\_raft\_disk\_snapshot\_labels) | Override labels for Raft GCE PD snapshot resources. Will use `var.labels` if set to null | `map(string)` | `null` | no |
+| <a name="input_raft_disk_type"></a> [raft\_disk\_type](#input\_raft\_disk\_type) | Raft data disk type | `string` | `"pd-ssd"` | no |
 | <a name="input_raft_disk_zones"></a> [raft\_disk\_zones](#input\_raft\_disk\_zones) | List of zones for disks. If not set, will default to the zones in var.region | `list(string)` | `[]` | no |
 | <a name="input_raft_extra_parameters"></a> [raft\_extra\_parameters](#input\_raft\_extra\_parameters) | Extra parameters for Raft storage in HCL | `string` | `""` | no |
 | <a name="input_raft_persistent_disks_prefix"></a> [raft\_persistent\_disks\_prefix](#input\_raft\_persistent\_disks\_prefix) | Prefix of the name persistent disks for Vault to create. The prefix will be appended with the index | `string` | `"vault-data-"` | no |
@@ -341,7 +342,7 @@ No modules.
 | <a name="input_server_extra_args"></a> [server\_extra\_args](#input\_server\_extra\_args) | Extra args for the server | `string` | `""` | no |
 | <a name="input_server_extra_containers"></a> [server\_extra\_containers](#input\_server\_extra\_containers) | List of extra server containers | `any` | `[]` | no |
 | <a name="input_server_image_repository"></a> [server\_image\_repository](#input\_server\_image\_repository) | Server image repository | `string` | `"hashicorp/vault"` | no |
-| <a name="input_server_image_tag"></a> [server\_image\_tag](#input\_server\_image\_tag) | Server image tag | `string` | `"1.8.2"` | no |
+| <a name="input_server_image_tag"></a> [server\_image\_tag](#input\_server\_image\_tag) | Server image tag | `string` | `"1.9.0"` | no |
 | <a name="input_server_labels"></a> [server\_labels](#input\_server\_labels) | Labels for server | `map` | `{}` | no |
 | <a name="input_server_liveness_probe_enable"></a> [server\_liveness\_probe\_enable](#input\_server\_liveness\_probe\_enable) | Enable server liness probe | `bool` | `true` | no |
 | <a name="input_server_liveness_probe_path"></a> [server\_liveness\_probe\_path](#input\_server\_liveness\_probe\_path) | Server liveness probe path | `string` | `"/v1/sys/health?standbyok=true"` | no |
@@ -363,6 +364,7 @@ No modules.
 | <a name="input_service_account_name"></a> [service\_account\_name](#input\_service\_account\_name) | Override name for service account | `string` | `""` | no |
 | <a name="input_service_annotations"></a> [service\_annotations](#input\_service\_annotations) | Annotations for the service | `map` | `{}` | no |
 | <a name="input_service_type"></a> [service\_type](#input\_service\_type) | Service type for Vault | `string` | `"ClusterIP"` | no |
+| <a name="input_static_secret_render_interval"></a> [static\_secret\_render\_interval](#input\_static\_secret\_render\_interval) | Static secret render interval for the agent | `string` | `""` | no |
 | <a name="input_storage_bucket_class"></a> [storage\_bucket\_class](#input\_storage\_bucket\_class) | Storage class of the bucket. See https://cloud.google.com/storage/docs/storage-classes | `string` | `"REGIONAL"` | no |
 | <a name="input_storage_bucket_labels"></a> [storage\_bucket\_labels](#input\_storage\_bucket\_labels) | Set of labels for the storage bucket | `map` | <pre>{<br>  "terraform": "true"<br>}</pre> | no |
 | <a name="input_storage_bucket_location"></a> [storage\_bucket\_location](#input\_storage\_bucket\_location) | Location of the storage bucket. Defaults to the provider's region if empty. This must be in the same location as your KMS key. | `string` | `""` | no |
@@ -379,6 +381,7 @@ No modules.
 | <a name="input_tls_cipher_suites"></a> [tls\_cipher\_suites](#input\_tls\_cipher\_suites) | Specifies the list of supported ciphersuites as a comma-separated-list. Make sure this matches the type of key of the TLS certificate you are using. See https://golang.org/src/crypto/tls/cipher_suites.go | `string` | `""` | no |
 | <a name="input_ui_active_vault_pod_only"></a> [ui\_active\_vault\_pod\_only](#input\_ui\_active\_vault\_pod\_only) | Only select active vault server pod for UI service | `bool` | `true` | no |
 | <a name="input_ui_annotations"></a> [ui\_annotations](#input\_ui\_annotations) | Annotations for UI service | `map` | `{}` | no |
+| <a name="input_ui_external_traffic_policy"></a> [ui\_external\_traffic\_policy](#input\_ui\_external\_traffic\_policy) | External traffic policy for UI. Only applicable for LoadBlaancer/NodePort | `string` | `"Cluster"` | no |
 | <a name="input_ui_load_balancer_ip"></a> [ui\_load\_balancer\_ip](#input\_ui\_load\_balancer\_ip) | UI Load balancer IP | `string` | `""` | no |
 | <a name="input_ui_load_balancer_source_ranges"></a> [ui\_load\_balancer\_source\_ranges](#input\_ui\_load\_balancer\_source\_ranges) | Load balancer source ranges for UI service | `list` | `[]` | no |
 | <a name="input_ui_publish_unready"></a> [ui\_publish\_unready](#input\_ui\_publish\_unready) | Publish unready pod IP address for UI service | `bool` | `false` | no |
@@ -406,4 +409,4 @@ No modules.
 | <a name="output_release_name"></a> [release\_name](#output\_release\_name) | Release name of the Helm chart |
 | <a name="output_storage_key_self_link"></a> [storage\_key\_self\_link](#output\_storage\_key\_self\_link) | Self-link of the KMS Key for storage |
 | <a name="output_unseal_key_self_link"></a> [unseal\_key\_self\_link](#output\_unseal\_key\_self\_link) | Self-link of the KMS Key for unseal |
-| <a name="output_vault_server_service_account"></a> [vault\_server\_service\_account](#output\_vault\_server\_service\_account) | Email ID of the Vault server Service Account if created |
+| <a name="output_vault_server_service_account"></a> [vault\_server\_service\_account](#output\_vault\_server\_service\_account) | Email ID of the Vault server Service Account if created
